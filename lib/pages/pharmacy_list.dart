@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy_appnew/pages/about_pharmacy.dart';
+import 'package:pharmacy_appnew/pages/account.dart';
+import 'package:pharmacy_appnew/pages/home.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 
 class PharmacyListPage extends StatelessWidget {
@@ -66,56 +69,100 @@ class PharmacyListPage extends StatelessWidget {
                         PharmacyNameContainer(
                           name: 'ABC Pharmacy',
                           onTap: () {
-                            print("tapped");
-                            // Action when 'ABC Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'DEF Pharmacy',
                           onTap: () {
-                            // Action when 'DEF Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'HIJ Pharmacy',
                           onTap: () {
-                            // Action when 'HIJ Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'KLM Pharmacy',
                           onTap: () {
-                            // Action when 'KLM Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'NOP Pharmacy',
                           onTap: () {
-                            // Action when 'NOP Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'QRS Pharmacy',
                           onTap: () {
-                            // Action when 'QRS Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'TUV Pharmacy',
                           onTap: () {
-                            // Action when 'TUV Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'WXY Pharmacy',
                           onTap: () {
-                            // Action when 'WXY Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         PharmacyNameContainer(
                           name: 'ZAB Pharmacy',
                           onTap: () {
-                            // Action when 'ZAB Pharmacy' is tapped
+                            // Navigate to another page when tapped
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPharmacy()),
+                            );
                           },
                         ),
                         // Add other PharmacyItem containers here
@@ -154,8 +201,12 @@ class PharmacyListPage extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print("Home icon tapped");
-                                  // Perform your action when the home icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 31 * fem,
@@ -175,8 +226,12 @@ class PharmacyListPage extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print(" search tapped");
-                                  // Perform your action when the home icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 37 * fem,
@@ -196,8 +251,12 @@ class PharmacyListPage extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print("user icon tapped");
-                                  // Perform your action when the home icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AccountPage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 42 * fem,

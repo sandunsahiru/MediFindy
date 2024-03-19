@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy_appnew/pages/account.dart';
+import 'package:pharmacy_appnew/pages/location.dart';
+import 'package:pharmacy_appnew/pages/pharmacy_list.dart';
+import 'package:pharmacy_appnew/pages/search_medicines.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 import 'package:pharmacy_appnew/pages/special_request.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -94,36 +98,51 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Icon(Icons.search),
+                              GestureDetector(
+                                  onTap: () {
+                                    // Navigate to another page
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SearchMedicines()),
+                                    );
+                                  },
+                                  child: Icon(Icons.search)),
                             ],
                           ),
                         ),
 
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              10 * fem, 10 * fem, 10 * fem, 0 * fem),
+                        GestureDetector(
+                          onTap: () {
+                            // Navigate to another page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LocationPage()),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(
+                                10 * fem, 10 * fem, 10 * fem, 0 * fem),
 
-                          width: 340 * fem, // Decrease width
-                          height: 45 * fem, // Decrease height
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(
-                                255, 213, 227, 252), // Background color
-                            borderRadius:
-                                BorderRadius.circular(10.0), // Rounded corners
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 194, 229, 245)
-                                    .withOpacity(0.5), // Shadow color
-                                spreadRadius: 2, // Spread radius
-                                blurRadius: 5, // Blur radius
-                                offset: Offset(0, 3), // Offset
-                              ),
-                            ],
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              // Handle click action here
-                            },
+                            width: 340 * fem, // Decrease width
+                            height: 45 * fem, // Decrease height
+                            decoration: BoxDecoration(
+                              color: Color(0xffDCF2F1), // Background color
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Rounded corners
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 194, 229, 245)
+                                      .withOpacity(0.5), // Shadow color
+                                  spreadRadius: 2, // Spread radius
+                                  blurRadius: 5, // Blur radius
+                                  offset: Offset(0, 3), // Offset
+                                ),
+                              ],
+                            ),
+
                             child: Row(
                               children: [
                                 Container(
@@ -144,112 +163,116 @@ class HomePage extends StatelessWidget {
                                     fontSize:
                                         16 * fem, // Adjust font size as needed
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 194, 89,
-                                        180), // Adjust text color as needed
+                                    color: Color(
+                                        0xffFF407D), // Adjust text color as needed
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
 
                         Container(
                           margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 0 * fem),
+                              10 * fem, 0 * fem, 0 * fem, 0 * fem),
                           width: double.infinity,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    30 * fem, 15 * fem, 0 * fem, 0 * fem),
-                                width: 150,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 226, 202,
-                                      218), // Set background color
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Set border radius
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 100 * fem,
-                                      height: 90 * fem,
-                                      child: Image(
-                                        image: AssetImage(
-                                            'lib/images/pharmacies.png'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Pharmacies',
-                                      style: TextStyle(
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 14 *
-                                            fem, // Adjust font size as needed
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(125, 0, 0,
-                                            0), // Adjust text color as needed
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    30 * fem, 15 * fem, 0 * fem, 0 * fem),
-                                width: 150,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 226, 202,
-                                      218), // Set background color
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Set border radius
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        // Navigate to another page when tapped
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SpecialRequest()),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 120 * fem,
-                                        height: 90 * fem,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'lib/images/medi req.png'),
-                                          fit: BoxFit.cover,
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate to another page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PharmacyListPage()),
+                                  );
+                                },
+                                child: Container(
+                                  width: 180 * fem, // Adjusted width
+                                  height: 110 * fem, // Adjusted height
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image(
+                                            image: AssetImage(
+                                                'lib/images/pharmacies.png'),
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      'Medicines Request',
-                                      style: TextStyle(
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 14 *
-                                            fem, // Adjust font size as needed
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(125, 0, 0,
-                                            0), // Adjust text color as needed
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Pharmacies',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 14, // Adjusted font size
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate to another page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SpecialRequest()),
+                                  );
+                                },
+                                child: Container(
+                                  width: 180 * fem, // Adjusted width
+                                  height: 110 * fem, // Adjusted height
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image(
+                                            image: AssetImage(
+                                                'lib/images/medicines.png'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Medical Requests',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 14, // Adjusted font size
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+
                         SizedBox(
-                            height: 10), // Add space between text and image
+                            height: 15), // Add space between text and image
 
                         // Container list for pharmacy names made tappable
                         Column(
@@ -292,7 +315,7 @@ class HomePage extends StatelessWidget {
                                     },
                                     child: Text('Benefits of Eating Healthy',
                                         style: TextStyle(
-                                          fontFamily: 'Quicksand',
+                                            fontFamily: 'Quicksand',
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ),
@@ -385,8 +408,12 @@ class HomePage extends StatelessWidget {
                                   child: Align(
                                     child: GestureDetector(
                                       onTap: () {
-                                        print(" search tapped");
-                                        // Perform your action when the home icon is tapped
+                                        // Navigate to another page
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomePage()),
+                                        );
                                       },
                                       child: SizedBox(
                                         width: 37 * fem,
@@ -407,8 +434,13 @@ class HomePage extends StatelessWidget {
                                   child: Align(
                                     child: GestureDetector(
                                       onTap: () {
-                                        print("user icon tapped");
-                                        // Perform your action when the home icon is tapped
+                                        // Navigate to another page
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AccountPage()),
+                                        );
                                       },
                                       child: SizedBox(
                                         width: 42 * fem,

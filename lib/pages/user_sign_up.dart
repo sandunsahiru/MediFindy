@@ -69,13 +69,15 @@ class UserSignUpPage extends StatelessWidget {
                                 TextSpan(
                                   text: 'Create New Account\n',
                                   style: TextStyle(
-                                    fontSize: 24 * ffem,
+                                    fontFamily: 'Quicksand',
+                                    fontSize: 22 * ffem,
                                     color: Color(0xff006a71),
                                   ),
                                 ),
                                 TextSpan(
                                   text: 'Already Registered?',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 15 * ffem,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xff00bd56),
@@ -84,6 +86,7 @@ class UserSignUpPage extends StatelessWidget {
                                 TextSpan(
                                   text: ' Login',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 15 * ffem,
                                     fontWeight: FontWeight.w700,
                                     color: Color(0xff1c7947),

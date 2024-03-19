@@ -46,7 +46,8 @@ class PharmacySignUp extends StatelessWidget {
                                 TextSpan(
                                   text: 'Create New Account\n',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontFamily: 'Quicksand',
+                                    fontSize: 22,
                                     fontWeight: FontWeight.w700,
                                     height: 1.25,
                                     color: Color(0xff006a71),
@@ -55,6 +56,7 @@ class PharmacySignUp extends StatelessWidget {
                                 TextSpan(
                                   text: 'Already Registered?',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     height: 1.25,
@@ -64,6 +66,7 @@ class PharmacySignUp extends StatelessWidget {
                                 TextSpan(
                                   text: ' Login',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     height: 1.25,
@@ -181,6 +184,7 @@ class PharmacySignUp extends StatelessWidget {
                       'SIGN UP',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                        fontFamily: 'Quicksand',
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         height: 1.25,

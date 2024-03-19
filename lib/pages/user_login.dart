@@ -45,6 +45,7 @@ class UserLoginPage extends StatelessWidget {
                                 TextSpan(
                                   text: 'Login\n',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 24,
                                     fontWeight: FontWeight.w700,
                                     height: 1.25,
@@ -54,6 +55,7 @@ class UserLoginPage extends StatelessWidget {
                                 TextSpan(
                                   text: 'Sign in to Continue!',
                                   style: TextStyle(
+                                    fontFamily: 'Quicksand',
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     height: 1.25,

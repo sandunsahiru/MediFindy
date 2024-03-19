@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pharmacy_appnew/pages/about_pharmacy.dart';
+import 'package:pharmacy_appnew/pages/account.dart';
+import 'package:pharmacy_appnew/pages/home.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 
 class ReviewAndRating extends StatelessWidget {
@@ -33,19 +36,29 @@ class ReviewAndRating extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      // mzo (32:497)
-                      margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 51 * fem, 0 * fem),
-                      child: Text(
-                        '<',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          fontSize: 20 * ffem,
-                          fontWeight: FontWeight.w700,
-                          height: 1.25 * ffem / fem,
-                          color: Color(0xffffffff),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to another page when tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutPharmacy()),
+                        );
+                      },
+                      child: Container(
+                        // mzo (32:497)
+                        margin: EdgeInsets.fromLTRB(
+                            0 * fem, 0 * fem, 51 * fem, 0 * fem),
+                        child: Text(
+                          '<',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                            fontSize: 20 * ffem,
+                            fontWeight: FontWeight.w700,
+                            height: 1.25 * ffem / fem,
+                            color: Color(0xffffffff),
+                          ),
                         ),
                       ),
                     ),
@@ -294,8 +307,12 @@ class ReviewAndRating extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print("home icon tapped");
-                                  // Perform your action when the settings icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 31 * fem,
@@ -315,8 +332,12 @@ class ReviewAndRating extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print("search icon tapped");
-                                  // Perform your action when the settings icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 37 * fem,
@@ -336,8 +357,12 @@ class ReviewAndRating extends StatelessWidget {
                             child: Align(
                               child: GestureDetector(
                                 onTap: () {
-                                  print("user icon tapped");
-                                  // Perform your action when the settings icon is tapped
+                                  // Navigate to another page when tapped
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AccountPage()),
+                                  );
                                 },
                                 child: SizedBox(
                                   width: 42 * fem,

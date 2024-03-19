@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 
+
 //import 'pages/home.dart';
 import 'pages/welcome_page.dart';
 //import 'pages/sign_in_sign_up_page.dart';
@@ -19,7 +20,10 @@ import 'pages/welcome_page.dart';
 //import 'pages/about.dart';
 //import 'pages/privacy_policy.dart';
 //import 'pages/Terms_of_use.dart';
-
+//import 'pages/search_medicines.dart';
+//import 'pages/location.dart';
+//import 'pages/location_2.dart';
+//import 'pages/location_3.dart';
 
 void main() {
   runApp(const MyApp());
