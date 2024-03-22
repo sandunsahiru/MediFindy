@@ -6,155 +6,91 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1.0; // Assuming fem is defined somewhere in your code
-    double ffem = 1.0; // Assuming ffem is defined somewhere in your code
+    // Use MediaQuery to get device size
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 40 * fem),
-        width: double.infinity,
+        padding: EdgeInsets.only(bottom: 40), // Updated for dynamic sizing
+        width: width, // Use the full width of the device
+        height: height, // Use the full height of the device
         decoration: BoxDecoration(
           color: Color(0xffefffff),
           boxShadow: [
             BoxShadow(
               color: Color(0x3f000000),
-              offset: Offset(0 * fem, 4 * fem),
-              blurRadius: 2 * fem,
+              offset: Offset(0, 4),
+              blurRadius: 2,
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 45 * fem),
+            SizedBox(height: height * 0.05), // Dynamic sizing
             Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 1 * fem, 0 * fem),
-              width: 335 * fem,
-              height: 282 * fem,
+              margin: EdgeInsets.only(right: 1), // Simplified for dynamic sizing
+              width: width * 0.8, // Dynamic width based on screen size
+              height: height * 0.3, // Dynamic height based on screen size
               child: Image(
                 image: AssetImage('lib/images/logo.png'),
                 fit: BoxFit.cover,
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 58 * fem),
+              margin: EdgeInsets.only(top: height * 0.01, bottom: height * 0.07), // Dynamic sizing
               constraints: BoxConstraints(
-                maxWidth: 254 * fem,
+                maxWidth: width * 0.6, // Dynamic width constraint
               ),
-              child: RichText(
+              child: Text(
+                'Welcome to Medi Findy!\n\nYour one-stop solution for finding medicines and pharmacies with ease. \nSearch, discover, and connect seamlessly. Get the medicines you need, when you need them.',
                 textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Quando',
-                    fontSize: 12 * ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.25 * ffem / fem,
-                    color: Color(0xff000000),
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Welcome to Medi FIndy!\n',
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 16 * ffem,
-                        fontWeight: FontWeight.w600,
-                        height: 1.25 * ffem / fem,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                    TextSpan(
-                      text: '\n',
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 12 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.25 * ffem / fem,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          'Your one-stop solution for finding medicines and pharmacies with ease. \nSearch, discover, and connect seamlessly. Get the medicines you need, when you need them.',
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 13 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.25 * ffem / fem,
-                        color: Color(0xff095062),
-                      ),
-                    ),
-                  ],
+                style: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontSize: 14, // Adjust font size as needed
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff095062),
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignInSignUpPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    144 * fem, 0 * fem, 144 * fem, 28 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff7bd3ea),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'Log In',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 15 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff0e185f),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignInSignUpPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    144 * fem, 0 * fem, 144 * fem, 144 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff7bd3ea),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'Sign Up',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 15 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff0e185f),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-           
+            _buildActionButton(context, 'Log In', height * 0.04, width), // Dynamic sizing
+            _buildActionButton(context, 'Sign Up', height * 0.04, width), // Dynamic sizing
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(BuildContext context, String title, double height, double width) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignInSignUpPage()),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: height * 0.02, horizontal: width * 0.35), // Dynamic sizing
+        width: double.infinity,
+        height: height, // Dynamic height
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xff000000)),
+          color: Color(0xff7bd3ea),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff0e185f),
+            ),
+          ),
         ),
       ),
     );

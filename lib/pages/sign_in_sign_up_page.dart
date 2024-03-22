@@ -9,197 +9,90 @@ class SignInSignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1.0; // Assuming fem is defined somewhere in your code
-    double ffem = 1.0; // Assuming ffem is defined somewhere in your code
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 40 * fem),
-        width: double.infinity,
+        padding: EdgeInsets.only(bottom: 40),
+        width: width,
         decoration: BoxDecoration(
           color: Color(0xffefffff),
           boxShadow: [
             BoxShadow(
               color: Color(0x3f000000),
-              offset: Offset(0 * fem, 4 * fem),
-              blurRadius: 2 * fem,
+              offset: Offset(0, 4),
+              blurRadius: 2,
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 45 * fem),
+            SizedBox(height: height * 0.05),
             Container(
-              margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 0 * fem),
-              width: 335 * fem,
-              height: 250 * fem,
+              margin: EdgeInsets.only(right: 1),
+              width: width * 0.8,
+              height: height * 0.3,
               child: Image(
                 image: AssetImage('lib/images/logo.png'),
                 fit: BoxFit.cover,
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 16 * fem),
-              child: Text(
-                'Sign In as a,',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  fontSize: 24 * ffem,
-                  fontWeight: FontWeight.w700,
-                  height: 1.25 * ffem / fem,
-                  color: Color(0xff0c359e),
-                ),
+            Text(
+              'Sign In as a,',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Quicksand',
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff0c359e),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PharmacyLoginPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    109 * fem, 0 * fem, 109 * fem, 22 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff98ded9),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'Pharmacy Admin',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
+            _buildActionContainer(context, 'Pharmacy Admin', PharmacyLoginPage(), width, height * 0.04),
+            _buildActionContainer(context, 'User', UserLoginPage(), width, height * 0.04),
+            Text(
+              'Sign Up as a,',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Quicksand',
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff0c359e),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserLoginPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    109 * fem, 0 * fem, 109 * fem, 52 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff98ded9),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'User',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 16 * fem),
-              child: Text(
-                'Sign Up as a,',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  fontSize: 24 * ffem,
-                  fontWeight: FontWeight.w700,
-                  height: 1.25 * ffem / fem,
-                  color: Color(0xff0c359e),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PharmacySignUp()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    109 * fem, 0 * fem, 109 * fem, 27 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff98ded9),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'Pharmacy Admin',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                // Navigate to another page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserSignUpPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    109 * fem, 0 * fem, 109 * fem, 122 * fem),
-                width: double.infinity,
-                height: 31 * fem,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff000000)),
-                  color: Color(0xff98ded9),
-                  borderRadius: BorderRadius.circular(5 * fem),
-                ),
-                child: Center(
-                  child: Text(
-                    'User',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25 * ffem / fem,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _buildActionContainer(context, 'Pharmacy Admin', PharmacySignUp(), width, height * 0.04),
+            _buildActionContainer(context, 'User', UserSignUpPage(), width, height * 0.04),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionContainer(BuildContext context, String text, Widget page, double width, double containerHeight) {
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: width * 0.25, vertical: 10),
+        width: double.infinity,
+        height: containerHeight,
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xff000000)),
+          color: Color(0xff98ded9),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Color(0xff000000),
+            ),
+          ),
         ),
       ),
     );
