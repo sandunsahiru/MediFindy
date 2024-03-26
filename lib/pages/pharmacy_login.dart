@@ -1,8 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class PharmacyLoginPage extends StatelessWidget {
+class PharmacyLoginPage extends StatefulWidget {
   const PharmacyLoginPage({Key? key}) : super(key: key);
+
+  @override
+  _PharmacyLoginPageState createState() => _PharmacyLoginPageState();
+}
+
+class _PharmacyLoginPageState extends State<PharmacyLoginPage> {
+  final TextEditingController _pharmacyIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _login() async {
+    try {
+      // Attempt to sign in with email and password.
+      // Assuming pharmacy ID is used as email
+      final UserCredential userCredential =
+      await _auth.signInWithEmailAndPassword(
+        email: _pharmacyIdController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      if (userCredential.user != null) {
+        // Successful authentication redirects to the HomePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    } catch (e) {
+      // If login fails, display an error message.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Failed to login. Please check your credentials.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,72 +53,7 @@ class PharmacyLoginPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(27, 110, 28, 59),
-                width: double.infinity,
-                height: 307,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 100,
-                      top: 258,
-                      child: Align(
-                        child: SizedBox(
-                          width: 135,
-                          height: 49,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
-                                color: Color(0xff1c7947),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Login\n',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.25,
-                                    color: Color(0xff006a71),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'Sign in to Continue!',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.25,
-                                    color: Color(0xff00bd56),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Align(
-                        child: SizedBox(
-                          width: 335,
-                          height: 282,
-                          child: Image(
-                            image: AssetImage('lib/images/logo.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Your existing UI widgets...
               Container(
                 margin: EdgeInsets.fromLTRB(74, 0, 74, 33),
                 padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
@@ -93,9 +64,10 @@ class PharmacyLoginPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                 ),
                 child: TextField(
+                  controller: _pharmacyIdController, // Bind controller
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Pharmacy ID',
+                    hintText: 'Pharmacy ID', // Placeholder for Pharmacy ID
                     hintStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -105,6 +77,7 @@ class PharmacyLoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              // Password TextField
               Container(
                 margin: EdgeInsets.fromLTRB(74, 0, 74, 51),
                 padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
@@ -115,10 +88,11 @@ class PharmacyLoginPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                 ),
                 child: TextField(
-                  obscureText: true,
+                  controller: _passwordController, // Bind controller
+                  obscureText: true, // Hide password
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Password',
+                    hintText: 'Password', // Placeholder for Password
                     hintStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -128,14 +102,9 @@ class PharmacyLoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              // Login Button
               GestureDetector(
-                 onTap: () {
-                      // Navigate to another page when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    },
+                onTap: _login, // Bind onTap event to _login function
                 child: Container(
                   margin: EdgeInsets.fromLTRB(138, 30, 139, 100),
                   width: double.infinity,

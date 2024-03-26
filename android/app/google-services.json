@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "124374770168",
+    "project_id": "medifindyapp",
+    "storage_bucket": "medifindyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124374770168:android:62c00f3f4b536e7a26760d",
+        "android_client_info": {
+          "package_name": "com.example.pharmacy_appnew"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi3cWUgmHWca4RRcJy1EgR9-9pLyRhxgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

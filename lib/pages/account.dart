@@ -351,7 +351,7 @@ class _AccountPageState extends State<AccountPage> {
                 print("Save");
               },
               child: Container(
-                // autogroupyuzd1GB (KjofoVW3wg2TfApv5MyUZD)
+
                 margin:
                     EdgeInsets.fromLTRB(101 * fem, 0 * fem, 105 * fem, 0 * fem),
                 width: double.infinity,
@@ -391,13 +391,13 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
             Container(
-              // autogroupcsidAFy (GpWypZPNC8wdGxhcobCsiD)
+
               width: double.infinity,
               height: 130 * fem,
               child: Stack(
                 children: [
                   Positioned(
-                    // rectangle97S7 (38:663)
+
                     left: 0 * fem,
                     top: 80 * fem,
                     child: Align(
@@ -413,14 +413,14 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Positioned(
-                    // homeiconsilhouettefreeiconsdes (38:664)
+
                     left: 40 * fem,
                     top: 88 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+
                         },
                         child: SizedBox(
                           width: 31 * fem,
@@ -434,14 +434,14 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Positioned(
-                    // freesearchpngsvgiconremovebgpr (38:665)
+
                     left: 135 * fem,
                     top: 90 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+
                         },
                         child: SizedBox(
                           width: 37 * fem,
@@ -455,14 +455,14 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Positioned(
-                    // downloadremovebgpreview1SMu (38:666)
+
                     left: 304 * fem,
                     top: 85 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+
                         },
                         child: SizedBox(
                           width: 42 * fem,
@@ -482,7 +482,7 @@ class _AccountPageState extends State<AccountPage> {
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to another page when tapped
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
