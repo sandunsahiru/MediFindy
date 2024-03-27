@@ -21,14 +21,14 @@ class HomePage extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 804 * fem,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xffefffff),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   width: 390 * fem,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                                     10 * fem, 35 * fem, 0 * fem, 0 * fem),
                                 width: 85 * fem,
                                 height: 85 * fem,
-                                child: Image(
+                                child: const Image(
                                   image: AssetImage('lib/images/logo.png'),
                                   fit: BoxFit.cover,
                                 ),
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                                     fontSize: 20 * ffem,
                                     fontWeight: FontWeight.w800,
                                     height: 1.25 * ffem / fem,
-                                    color: Color(0xFFDC5F00),
+                                    color: const Color(0xFFDC5F00),
                                   ),
                                 ),
                               ),
@@ -77,17 +77,17 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(255, 193, 219, 235)
+                                color: const Color.fromARGB(255, 193, 219, 235)
                                     .withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: Row(
                             children: [
-                              Expanded(
+                              const Expanded(
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: 'Quicksand',
@@ -105,10 +105,10 @@ class HomePage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              SearchMedicines()),
+                                              const SearchMedicines()),
                                     );
                                   },
-                                  child: Icon(Icons.search)),
+                                  child: const Icon(Icons.search)),
                             ],
                           ),
                         ),
@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LocationPage()),
+                                  builder: (context) => const LocationPage()),
                             );
                           },
                           child: Container(
@@ -129,16 +129,18 @@ class HomePage extends StatelessWidget {
                             width: 340 * fem, // Decrease width
                             height: 45 * fem, // Decrease height
                             decoration: BoxDecoration(
-                              color: Color(0xffDCF2F1), // Background color
+                              color:
+                                  const Color(0xffDCF2F1), // Background color
                               borderRadius: BorderRadius.circular(
                                   10.0), // Rounded corners
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(255, 194, 229, 245)
-                                      .withOpacity(0.5), // Shadow color
+                                  color:
+                                      const Color.fromARGB(255, 194, 229, 245)
+                                          .withOpacity(0.5), // Shadow color
                                   spreadRadius: 2, // Spread radius
                                   blurRadius: 5, // Blur radius
-                                  offset: Offset(0, 3), // Offset
+                                  offset: const Offset(0, 3), // Offset
                                 ),
                               ],
                             ),
@@ -148,13 +150,13 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   width: 50 * fem,
                                   height: 50 * fem,
-                                  child: Image(
+                                  child: const Image(
                                     image: AssetImage(
                                         'lib/images/location.png'), // Image asset
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                     width: 10), // Spacer between image and text
                                 Text(
                                   'Click Here to Set Your Location!!!',
@@ -163,7 +165,7 @@ class HomePage extends StatelessWidget {
                                     fontSize:
                                         16 * fem, // Adjust font size as needed
                                     fontWeight: FontWeight.bold,
-                                    color: Color(
+                                    color: const Color(
                                         0xffFF407D), // Adjust text color as needed
                                   ),
                                 ),
@@ -171,7 +173,7 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
 
@@ -189,7 +191,7 @@ class HomePage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            PharmacyListPage()),
+                                            const PharmacyListPage()),
                                   );
                                 },
                                 child: Container(
@@ -204,15 +206,15 @@ class HomePage extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          child: Image(
+                                          child: const Image(
                                             image: AssetImage(
                                                 'lib/images/pharmacies.png'),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
+                                      const SizedBox(height: 5),
+                                      const Text(
                                         'Pharmacies',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -231,7 +233,8 @@ class HomePage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => SpecialRequest()),
+                                        builder: (context) =>
+                                            const SpecialRequest()),
                                   );
                                 },
                                 child: Container(
@@ -246,15 +249,15 @@ class HomePage extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          child: Image(
+                                          child: const Image(
                                             image: AssetImage(
                                                 'lib/images/medicines.png'),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
+                                      const SizedBox(height: 5),
+                                      const Text(
                                         'Medical Requests',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -271,7 +274,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
 
-                        SizedBox(
+                        const SizedBox(
                             height: 15), // Add space between text and image
 
                         // Container list for pharmacy names made tappable
@@ -281,7 +284,7 @@ class HomePage extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Center(
+                                const Center(
                                   child: Text('Healthy Living Guides',
                                       style: TextStyle(
                                           fontFamily: 'Quicksand',
@@ -290,7 +293,7 @@ class HomePage extends StatelessWidget {
                                               Color.fromARGB(255, 68, 57, 231),
                                           fontWeight: FontWeight.bold)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                     height:
                                         10), // Add space between text and image
                                 Center(
@@ -302,7 +305,7 @@ class HomePage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                                 height: 5), // Adjust spacing between sections
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,13 +316,14 @@ class HomePage extends StatelessWidget {
                                       launch(
                                           'https://www.medicalnewstoday.com/articles/322268'); // Replace 'https://your-url.com' with your actual URL
                                     },
-                                    child: Text('Benefits of Eating Healthy',
+                                    child: const Text(
+                                        'Benefits of Eating Healthy',
                                         style: TextStyle(
                                             fontFamily: 'Quicksand',
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                     height:
                                         5), // Add space between text and image
                                 Center(
@@ -336,7 +340,7 @@ class HomePage extends StatelessWidget {
                                       launch(
                                           'https://onehealthtrust.org/?gad_source=1&gclid=CjwKCAjw48-vBhBbEiwAzqrZVJxVwHGHzoltRU4kpOxmu8y8k01yGqBJSQIXrCgIGWnkyb5or_ENwxoC0L4QAvD_BwE'); // Replace 'https://your-url.com' with your actual URL
                                     },
-                                    child: Text(
+                                    child: const Text(
                                         'One Health Trust - Read About Our Research',
                                         style: TextStyle(
                                             fontFamily: 'Quicksand',
@@ -348,7 +352,7 @@ class HomePage extends StatelessWidget {
                             // Adjust spacing between sections
                           ],
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
 
                         SingleChildScrollView(
                           child: Positioned(
@@ -368,7 +372,7 @@ class HomePage extends StatelessWidget {
                                       width: 390 * fem,
                                       height: 55 * fem,
                                       child: Container(
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Color(0xffbbe2ec),
                                         ),
                                       ),
@@ -386,13 +390,14 @@ class HomePage extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => HomePage()),
+                                              builder: (context) =>
+                                                  const HomePage()),
                                         );
                                       },
                                       child: SizedBox(
                                         width: 31 * fem,
                                         height: 32 * fem,
-                                        child: Image(
+                                        child: const Image(
                                           image:
                                               AssetImage('lib/images/home.png'),
                                           fit: BoxFit.cover,
@@ -412,13 +417,14 @@ class HomePage extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => HomePage()),
+                                              builder: (context) =>
+                                                  const HomePage()),
                                         );
                                       },
                                       child: SizedBox(
                                         width: 37 * fem,
                                         height: 32 * fem,
-                                        child: Image(
+                                        child: const Image(
                                           image: AssetImage(
                                               'lib/images/search.png'),
                                           fit: BoxFit.cover,
@@ -439,13 +445,13 @@ class HomePage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  AccountPage()),
+                                                  const AccountPage()),
                                         );
                                       },
                                       child: SizedBox(
                                         width: 42 * fem,
                                         height: 43 * fem,
-                                        child: Image(
+                                        child: const Image(
                                           image:
                                               AssetImage('lib/images/user.png'),
                                           fit: BoxFit.cover,
@@ -466,13 +472,13 @@ class HomePage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  SettingsPage()),
+                                                  const SettingsPage()),
                                         );
                                       },
                                       child: SizedBox(
                                         width: 96 * fem,
                                         height: 51 * fem,
-                                        child: Image(
+                                        child: const Image(
                                           image: AssetImage(
                                               'lib/images/settings.png'),
                                           fit: BoxFit.cover,

@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pharmacy_appnew/pages/pharmacy_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
+import 'package:pharmacy_appnew/pages/widget/email_field.dart';
+import 'package:pharmacy_appnew/pages/widget/password_field.dart';
+import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
+import 'package:pharmacy_appnew/utils/constant.dart';
+import 'package:pharmacy_appnew/utils/custom_snack.dart';
+import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
 class PharmacySignUp extends StatefulWidget {
   const PharmacySignUp({Key? key}) : super(key: key);
@@ -11,180 +20,202 @@ class PharmacySignUp extends StatefulWidget {
 }
 
 class _PharmacySignUpState extends State<PharmacySignUp> {
-  final TextEditingController _pharmacyIdController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<void> _signUp() async {
-    try {
-
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      await _firestore.collection('pharmacies').doc(userCredential.user!.uid).set({
-        'pharmacyID': _pharmacyIdController.text.trim(),
-
-      });
-
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => PharmacyLoginPage()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to sign up. Please try again.')),
-      );
-    }
-  }
+  final PharmacySignUpController _controller = PharmacySignUpController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: Color(0xffefffff),
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xffefffff),
-          ),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(27, 110, 28, 59),
-                width: double.infinity,
-                height: 301,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 52.5,
-                      top: 252,
-                      child: Align(
-                        child: SizedBox(
-                          width: 230,
-                          height: 49,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
-                                color: Color(0xff1c7947),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Create New Account\n',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.25,
-                                    color: Color(0xff006a71),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'Already Registered?',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.25,
-                                    color: Color(0xff00bd56),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: ' Login',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.25,
-                                    color: Color(0xff1c7947),
-                                  ),
-                                ),
-                              ],
+              const SizedBox(height: 60),
+              Column(
+                children: [
+                  Container(
+                    height: 220,
+                    child: const Image(
+                      image: AssetImage('lib/images/logo.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 230,
+                    height: 49,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
+                          color: Color(0xff1c7947),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Create New Account\n',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff006a71),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Align(
-                        child: SizedBox(
-                          width: 335,
-                          height: 282,
-                          child: Image(
-                            image: AssetImage('lib/images/logo.png'),
-                            fit: BoxFit.cover,
+                          TextSpan(
+                            text: 'Already Registered?',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              height: 1.25,
+                              color: Color(0xff00bd56),
+                            ),
                           ),
-                        ),
+                          TextSpan(
+                            text: ' Login',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff1c7947),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-
-              // Pharmacy ID TextField
+              const SizedBox(height: 50),
+              CommonTextfield(
+                controller: _controller._pharmacyIdController,
+                hintText: 'Pharmacy ID',
+              ),
               Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 31),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                child: TextField(
-                  controller: _pharmacyIdController,
-                  decoration: InputDecoration(
-                    hintText: 'Pharmacy ID',
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 74, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                decoration: BoxDecoration(
+                  color: const Color(0xfff4f9f9),
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _controller._selectedValue,
+                    hint: const Text(
+                      'Select an item',
+                      style: TextStyle(
+                        color: Color(0xffb4b4b8),
+                      ),
+                    ),
+                    items: districtsInSriLanka
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _controller._selectedValue = newValue;
+                      });
+                    },
                   ),
                 ),
               ),
-
-              Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 31),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-
-                  ),
-                ),
+              EmailField(emailController: _controller._emailController),
+              PasswordField(
+                passwordController: _controller._passwordController,
               ),
-
-              // Password TextField
-              Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 36),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-
-                  ),
-                ),
-              ),
-
-              GestureDetector(
-                onTap: _signUp,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(138, 20, 139, 100),
-                  // Button styling
-                  child: Center(
-                    child: Text('SIGN UP'),
-                  ),
-                ),
+              PrimaryBtn(
+                onPressed: () {
+                  _controller.signUp().then((_) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PharmacyLoginPage()),
+                    );
+                  }).catchError((e) {
+                    CustomSnackbar.showWarning(context, e.toString());
+                  });
+                },
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class PharmacySignUpController {
+  String? _selectedValue;
+  final TextEditingController _pharmacyIdController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> signUp() async {
+    try {
+      showLoadingAnimation();
+      inputValidation();
+
+      final String pharmacyId = _pharmacyIdController.text.trim();
+      final String email = _emailController.text.trim();
+
+      final DocumentSnapshot pharmacyIdSnapshot = await _firestore
+          .collection('pharmacyId_to_email')
+          .doc(pharmacyId)
+          .get();
+
+      if (pharmacyIdSnapshot.exists) {
+        closeLoadingAnimation();
+        throw 'Pharmacy ID already exists';
+      }
+
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: _passwordController.text.trim(),
+      );
+
+      await _firestore.collection('pharmacyId_to_email').doc(pharmacyId).set({
+        'email': email,
+      });
+
+      await _firestore
+          .collection('pharmacy_admins')
+          .doc(userCredential.user!.uid)
+          .set({
+        'pharmacyID': pharmacyId,
+        'email': email,
+        'district': _selectedValue,
+      });
+      closeLoadingAnimation();
+    } catch (e) {
+      closeLoadingAnimation();
+      rethrow;
+    }
+  }
+
+  void inputValidation() {
+    if (_pharmacyIdController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _selectedValue == null) {
+      throw 'Please fill in all fields.';
+    } else {
+      _emailController.text.contains('@') && _emailController.text.contains('.')
+          ? null
+          : throw 'Please enter a valid email address.';
+    }
   }
 }

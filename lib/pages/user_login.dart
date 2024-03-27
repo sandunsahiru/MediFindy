@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pharmacy_appnew/firebase_options.dart';
+import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
+import 'package:pharmacy_appnew/pages/widget/password_field.dart';
+import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
+import 'package:pharmacy_appnew/utils/custom_snack.dart';
+import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -12,186 +18,138 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  void _login(BuildContext context) async {
-    String username = _usernameController.text.trim();
-    String password = _passwordController.text.trim();
-
-    // Query for user in 'users' collection
-    var userSnapshot = await _firestore
-        .collection('users')
-        .where('username', isEqualTo: username)
-        .where('password', isEqualTo: password)
-        .get();
-
-    // Optionally, query for pharmacy user in 'pharmacy_users' collection
-    // var pharmacyUserSnapshot = await _firestore
-    //     .collection('pharmacy_users')
-    //     .where('username', isEqualTo: username)
-    //     .where('password', isEqualTo: password)
-    //     .get();
-
-    if (userSnapshot.docs.isNotEmpty /* || pharmacyUserSnapshot.docs.isNotEmpty */) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else {
-      // Handle login failure (e.g., show an error message)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid username or password')),
-      );
-    }
-  }
+  final _controller = UserLoginController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: Color(0xffefffff),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Color(0xffefffff),
-          ),
+          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(27, 110, 28, 59),
-                width: double.infinity,
-                height: 307,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 100,
-                      top: 258,
-                      child: Align(
-                        child: SizedBox(
-                          width: 135,
-                          height: 49,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
-                                color: Color(0xff1c7947),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Login\n',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.25,
-                                    color: Color(0xff006a71),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'Sign in to Continue!',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.25,
-                                    color: Color(0xff00bd56),
-                                  ),
-                                ),
-                              ],
+              const SizedBox(height: 60),
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 220,
+                    child: Image(
+                      image: AssetImage('lib/images/logo.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 230,
+                    height: 49,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
+                          color: Color(0xff1c7947),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Login\n',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff006a71),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Align(
-                        child: SizedBox(
-                          width: 335,
-                          height: 282,
-                          child: Image(
-                            image: AssetImage('lib/images/logo.png'),
-                            fit: BoxFit.cover,
+                          TextSpan(
+                            text: 'Sign in to Continue',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              height: 1.25,
+                              color: Color(0xff00bd56),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 33),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Username',
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      color: Color(0xffb4b4b8),
-                    ),
-                  ),
-                ),
-              ),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  hintText: 'Username',
-                  // Add other decoration properties as needed
-                ),
-              ),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  // Add other decoration properties as needed
-                ),
-              ),
-              GestureDetector(
-                onTap: () => _login(context),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(138, 30, 139, 100),
-                  width: double.infinity,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    color: Color(0xff006a71),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'LOGIN',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        height: 1.25,
-                        color: Color(0xffffffff),
+                          // TextSpan(
+                          //   text: ' Login',
+                          //   style: TextStyle(
+                          //     fontFamily: 'Quicksand',
+                          //     fontSize: 15,
+                          //     fontWeight: FontWeight.w700,
+                          //     height: 1.25,
+                          //     color: Color(0xff1c7947),
+                          //   ),
+                          // ),
+                        ],
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
+              const SizedBox(height: 40),
+              CommonTextfield(
+                  controller: _controller._usernameController,
+                  hintText: "Username"),
+              PasswordField(
+                  passwordController: _controller._passwordController),
+              PrimaryBtn(onPressed: () {
+                _controller.login().then((value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                }).catchError((error) {
+                  CustomSnackbar.showWarning(context, error.toString());
+                });
+              })
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class UserLoginController {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> login() async {
+    try {
+      String username = _usernameController.text.trim();
+      String password = _passwordController.text.trim();
+
+      showLoadingAnimation();
+      final DocumentSnapshot docSnapshot =
+          await _firestore.collection('username_to_email').doc(username).get();
+
+      if (docSnapshot.exists) {
+        final String email =
+            (docSnapshot.data() as Map<String, dynamic>)['email'];
+        final UserCredential userCredential =
+            await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      } else {
+        throw 'Invalid username';
+      }
+      closeLoadingAnimation();
+    } catch (e) {
+      closeLoadingAnimation();
+      rethrow;
+    }
+  }
+
+  void inputVerification(String username, String password) {
+    if (username.isEmpty || password.isEmpty) {
+      throw 'Please fill in all fields';
+    }
   }
 }

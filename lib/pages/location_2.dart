@@ -4,7 +4,6 @@ import 'package:pharmacy_appnew/pages/location.dart';
 import 'package:pharmacy_appnew/pages/location_3.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 
-
 import 'package:pharmacy_appnew/pages/settings.dart';
 
 class Location_2_Page extends StatelessWidget {
@@ -21,7 +20,7 @@ class Location_2_Page extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: 805,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xffefffff),
           ),
           child: Column(children: [
@@ -30,7 +29,7 @@ class Location_2_Page extends StatelessWidget {
               padding:
                   EdgeInsets.fromLTRB(34 * fem, 4 * fem, 94 * fem, 4 * fem),
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xff000000),
               ),
               child: Row(
@@ -41,7 +40,8 @@ class Location_2_Page extends StatelessWidget {
                       // Navigate to another page when tapped
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LocationPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const LocationPage()),
                       );
                     },
                     child: Container(
@@ -56,7 +56,7 @@ class Location_2_Page extends StatelessWidget {
                           fontSize: 20 * ffem,
                           fontWeight: FontWeight.w700,
                           height: 1.25 * ffem / fem,
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                         ),
                       ),
                     ),
@@ -70,7 +70,7 @@ class Location_2_Page extends StatelessWidget {
                       fontSize: 20 * ffem,
                       fontWeight: FontWeight.w700,
                       height: 1.25 * ffem / fem,
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                     ),
                   ),
                 ],
@@ -90,7 +90,7 @@ class Location_2_Page extends StatelessWidget {
                         EdgeInsets.fromLTRB(0 * fem, 0 * fem, 6 * fem, 0 * fem),
                     width: 160 * fem,
                     height: 160 * fem,
-                    child: Image(
+                    child: const Image(
                       image: AssetImage('lib/images/logo.png'),
                       fit: BoxFit.cover,
                     ),
@@ -107,10 +107,11 @@ class Location_2_Page extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 193, 219, 235).withOpacity(0.5),
+                    color: const Color.fromARGB(255, 193, 219, 235)
+                        .withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -119,7 +120,7 @@ class Location_2_Page extends StatelessWidget {
                   Container(
                     width: 50 * fem,
                     height: 50 * fem,
-                    child: Image(
+                    child: const Image(
                       image:
                           AssetImage('lib/images/location.png'), // Image asset
                       fit: BoxFit.cover,
@@ -128,7 +129,7 @@ class Location_2_Page extends StatelessWidget {
                   SizedBox(
                     width: 5 * fem,
                   ),
-                  Expanded(
+                  const Expanded(
                     child: TextField(
                       style: TextStyle(
                         fontFamily: 'Quicksand',
@@ -139,7 +140,7 @@ class Location_2_Page extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Icon(Icons.search),
+                  const Icon(Icons.search),
                 ],
               ),
             ),
@@ -149,11 +150,11 @@ class Location_2_Page extends StatelessWidget {
             Row(
               children: [
                 Container(
-                   margin:
-                  EdgeInsets.fromLTRB(65 * fem, 5 * fem, 0 * fem, 10 * fem),
+                  margin:
+                      EdgeInsets.fromLTRB(65 * fem, 5 * fem, 0 * fem, 10 * fem),
                   width: 40 * fem,
                   height: 40 * fem,
-                  child: Image(
+                  child: const Image(
                     image: AssetImage('lib/images/loc_pin.png'), // Image asset
                     fit: BoxFit.cover,
                   ),
@@ -162,20 +163,21 @@ class Location_2_Page extends StatelessWidget {
                   width: 15 * fem,
                 ),
                 GestureDetector(
-                   onTap: () {
-                      // Navigate to another page when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Location_3_Page()),
-                      );
-                    },
+                  onTap: () {
+                    // Navigate to another page when tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Location_3_Page()),
+                    );
+                  },
                   child: Text(
                     'SET LOCATION ON MAP!',
                     style: TextStyle(
                       fontFamily: 'Quicksand',
                       fontSize: 18 * fem, // Adjust font size as needed
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF004225),
+                      color: const Color(0xFF004225),
                       // Adjust text color as needed
                     ),
                   ),
@@ -200,7 +202,7 @@ class Location_2_Page extends StatelessWidget {
                         width: 390 * fem,
                         height: 55 * fem,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Color(0xffbbe2ec),
                           ),
                         ),
@@ -214,16 +216,17 @@ class Location_2_Page extends StatelessWidget {
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
-                      // Navigate to another page when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    },
+                          // Navigate to another page when tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        },
                         child: SizedBox(
                           width: 31 * fem,
                           height: 32 * fem,
-                          child: Image(
+                          child: const Image(
                             image: AssetImage('lib/images/home.png'),
                             fit: BoxFit.cover,
                           ),
@@ -237,17 +240,18 @@ class Location_2_Page extends StatelessWidget {
                     top: 90 * fem,
                     child: Align(
                       child: GestureDetector(
-                         onTap: () {
-                      // Navigate to another page when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    },
+                        onTap: () {
+                          // Navigate to another page when tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        },
                         child: SizedBox(
                           width: 37 * fem,
                           height: 32 * fem,
-                          child: Image(
+                          child: const Image(
                             image: AssetImage('lib/images/search.png'),
                             fit: BoxFit.cover,
                           ),
@@ -261,17 +265,18 @@ class Location_2_Page extends StatelessWidget {
                     top: 85 * fem,
                     child: Align(
                       child: GestureDetector(
-                         onTap: () {
-                      // Navigate to another page when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>AccountPage()),
-                      );
-                    },
+                        onTap: () {
+                          // Navigate to another page when tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AccountPage()),
+                          );
+                        },
                         child: SizedBox(
                           width: 42 * fem,
                           height: 43 * fem,
-                          child: Image(
+                          child: const Image(
                             image: AssetImage('lib/images/user.png'),
                             fit: BoxFit.cover,
                           ),
@@ -290,13 +295,13 @@ class Location_2_Page extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SettingsPage()),
+                                builder: (context) => const SettingsPage()),
                           );
                         },
                         child: SizedBox(
                           width: 96 * fem,
                           height: 51 * fem,
-                          child: Image(
+                          child: const Image(
                             image: AssetImage('lib/images/settings.png'),
                             fit: BoxFit.cover,
                           ),

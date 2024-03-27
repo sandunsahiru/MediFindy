@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:pharmacy_appnew/pages/user_login.dart';
+import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
+import 'package:pharmacy_appnew/pages/widget/email_field.dart';
+import 'package:pharmacy_appnew/pages/widget/password_field.dart';
+import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
+import 'package:pharmacy_appnew/utils/custom_snack.dart';
+import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
 class UserSignUpPage extends StatefulWidget {
   const UserSignUpPage({Key? key}) : super(key: key);
@@ -11,25 +18,130 @@ class UserSignUpPage extends StatefulWidget {
 }
 
 class _UserSignUpPageState extends State<UserSignUpPage> {
+  final UserSignupController _controller = UserSignupController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Color(0xffefffff),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 60),
+              Column(
+                children: [
+                  Container(
+                    height: 220,
+                    child: const Image(
+                      image: AssetImage('lib/images/logo.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 230,
+                    height: 49,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
+                          color: Color(0xff1c7947),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Create New Account\n',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff006a71),
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Already Registered?',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              height: 1.25,
+                              color: Color(0xff00bd56),
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' Login',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff1c7947),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
+              CommonTextfield(
+                controller: _controller._usernameController,
+                hintText: "Username",
+              ),
+              // Email TextField
+              EmailField(emailController: _controller._emailController),
+              // Password TextField
+              PasswordField(
+                  passwordController: _controller._passwordController),
+              // SIGN UP Button
+              PrimaryBtn(onPressed: () async {
+                _controller.signUp().then((_) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UserLoginPage()),
+                  );
+                }).catchError((e) {
+                  CustomSnackbar.showWarning(context, e.toString());
+                });
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UserSignupController {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseDatabase _database = FirebaseDatabase(
-    databaseURL:
-        'https://medifindyapp-default-rtdb.asia-southeast1.firebasedatabase.app/',
-  );
 
-  void _signUp(BuildContext context) async {
+  Future<void> signUp() async {
     final String username = _usernameController.text.trim();
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
 
-    if (username.isEmpty || email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields')),
-      );
-      return;
+    validateInput(username, email, password);
+    showLoadingAnimation();
+
+    final DocumentSnapshot usernameSnapshot = await FirebaseFirestore.instance
+        .collection('username_to_email')
+        .doc(username)
+        .get();
+
+    if (usernameSnapshot.exists) {
+      closeLoadingAnimation();
+      throw 'Username already exists';
     }
 
     try {
@@ -38,160 +150,34 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
         email: email,
         password: password,
       );
-      // Save the user's details in the realtime database
-      // ... previous code ...
+      User? user = userCredential.user;
+      if (user != null) {
+        await FirebaseFirestore.instance
+            .collection('username_to_email')
+            .doc(username)
+            .set({
+          'email': email,
+        });
 
-      try {
-        UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-
-        User? user = userCredential.user;
-
-        if (user != null) {
-          // Save the user's details in the realtime database
-          await _database.reference().child('users').child(user.uid).set({
-            'username': username,
-            'email': email,
-            // Add additional user attributes here if needed
-          });
-
-          // On successful sign-up, navigate to the login page
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const UserLoginPage()),
-          );
-        } else {
-          // Handle the error or inform the user
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text(
-                    'User was not created successfully. Please try again.')),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to sign up: ${e.toString()}')),
-        );
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': username,
+          'email': email,
+        });
+      } else {
+        throw 'User was not created successfully. Please try again.';
       }
-
-// ... remaining code ...
-
-      // On successful sign-up, navigate to the login page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const UserLoginPage()),
-      );
+      closeLoadingAnimation();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to sign up: ${e.toString()}')),
-      );
+      throw 'Failed to sign up: ${e.toString()}';
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xffefffff),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Add Image and Text widgets here if needed...
-              // Username TextField
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 74, vertical: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 17),
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Username',
-                    hintStyle: TextStyle(
-                      color: Color(0xffb4b4b8),
-                    ),
-                  ),
-                ),
-              ),
-              // Email TextField
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 74, vertical: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 17),
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Email',
-                    hintStyle: TextStyle(
-                      color: Color(0xffb4b4b8),
-                    ),
-                  ),
-                ),
-              ),
-              // Password TextField
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 74, vertical: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 17),
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                    hintStyle: TextStyle(
-                      color: Color(0xffb4b4b8),
-                    ),
-                  ),
-                ),
-              ),
-              // SIGN UP Button
-              GestureDetector(
-                onTap: () => _signUp(context),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  decoration: BoxDecoration(
-                    color: Color(0xff006a71),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Text(
-                    'SIGN UP',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void validateInput(String username, String email, String password) {
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+      throw 'Please fill all fields';
+    }
+    if (email.contains('@') == false || email.contains('.') == false) {
+      throw 'Please enter a valid email address';
+    }
   }
 }

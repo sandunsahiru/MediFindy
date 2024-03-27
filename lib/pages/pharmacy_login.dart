@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
+import 'package:pharmacy_appnew/pages/widget/password_field.dart';
+import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
+import 'package:pharmacy_appnew/utils/custom_snack.dart';
+import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
 class PharmacyLoginPage extends StatefulWidget {
   const PharmacyLoginPage({Key? key}) : super(key: key);
@@ -10,127 +16,147 @@ class PharmacyLoginPage extends StatefulWidget {
 }
 
 class _PharmacyLoginPageState extends State<PharmacyLoginPage> {
-  final TextEditingController _pharmacyIdController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<void> _login() async {
-    try {
-      // Attempt to sign in with email and password.
-      // Assuming pharmacy ID is used as email
-      final UserCredential userCredential =
-      await _auth.signInWithEmailAndPassword(
-        email: _pharmacyIdController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      if (userCredential.user != null) {
-        // Successful authentication redirects to the HomePage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      }
-    } catch (e) {
-      // If login fails, display an error message.
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Failed to login. Please check your credentials.')),
-      );
-    }
-  }
+  final PharmacyLoginController _controller = PharmacyLoginController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: Color(0xffefffff),
       body: SingleChildScrollView(
         child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xffefffff),
-          ),
+          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Your existing UI widgets...
-              Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 33),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  controller: _pharmacyIdController, // Bind controller
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Pharmacy ID', // Placeholder for Pharmacy ID
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      color: Color(0xffb4b4b8),
+              const SizedBox(height: 60),
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 220,
+                    child: Image(
+                      image: AssetImage('lib/images/logo.png'),
+                      fit: BoxFit.fill,
                     ),
                   ),
-                ),
-              ),
-              // Password TextField
-              Container(
-                margin: EdgeInsets.fromLTRB(74, 0, 74, 51),
-                padding: EdgeInsets.fromLTRB(17, 5, 17, 5),
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Color(0xfff4f9f9),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TextField(
-                  controller: _passwordController, // Bind controller
-                  obscureText: true, // Hide password
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password', // Placeholder for Password
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      color: Color(0xffb4b4b8),
-                    ),
-                  ),
-                ),
-              ),
-              // Login Button
-              GestureDetector(
-                onTap: _login, // Bind onTap event to _login function
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(138, 30, 139, 100),
-                  width: double.infinity,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    color: Color(0xff006a71),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'LOGIN',
+                  SizedBox(
+                    width: 230,
+                    height: 49,
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        height: 1.25,
-                        color: Color(0xffffffff),
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
+                          color: Color(0xff1c7947),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Login\n',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
+                              color: Color(0xff006a71),
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Sign in to Continue',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              height: 1.25,
+                              color: Color(0xff00bd56),
+                            ),
+                          ),
+                          // TextSpan(
+                          //   text: ' Login',
+                          //   style: TextStyle(
+                          //     fontFamily: 'Quicksand',
+                          //     fontSize: 15,
+                          //     fontWeight: FontWeight.w700,
+                          //     height: 1.25,
+                          //     color: Color(0xff1c7947),
+                          //   ),
+                          // ),
+                        ],
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
+              const SizedBox(height: 40),
+              CommonTextfield(
+                controller: _controller._pharmacyIdController,
+                hintText: "Pharmacy ID",
+              ),
+              // Password TextField
+              PasswordField(
+                  passwordController: _controller._passwordController),
+              // Login Button
+              PrimaryBtn(onPressed: () {
+                _controller.login().then((value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
+                }).catchError((e) {
+                  CustomSnackbar.showWarning(context, e.toString());
+                });
+              })
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class PharmacyLoginController {
+  final TextEditingController _pharmacyIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> login() async {
+    try {
+      String pharmacyId = _pharmacyIdController.text.trim();
+      String password = _passwordController.text.trim();
+      showLoadingAnimation();
+      final DocumentSnapshot docSnapshot = await _firestore
+          .collection('pharmacyId_to_email')
+          .doc(pharmacyId)
+          .get();
+
+      if (docSnapshot.exists) {
+        final String email =
+            (docSnapshot.data() as Map<String, dynamic>)['email'];
+        final UserCredential userCredential =
+            await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      } else {
+        throw 'Invalid pharmacy ID';
+      }
+      closeLoadingAnimation();
+    } catch (e) {
+      closeLoadingAnimation();
+      rethrow;
+    }
+  }
+
+  void inputValidation() {
+    if (_pharmacyIdController.text.isEmpty) {
+      throw 'Pharmacy ID cannot be empty';
+    }
+    if (_passwordController.text.isEmpty) {
+      throw 'Password cannot be empty';
+    }
   }
 }

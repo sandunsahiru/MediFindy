@@ -13,10 +13,11 @@ class WelcomePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(bottom: 40), // Updated for dynamic sizing
+        padding:
+            const EdgeInsets.only(bottom: 40), // Updated for dynamic sizing
         width: width, // Use the full width of the device
         height: height, // Use the full height of the device
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xffefffff),
           boxShadow: [
             BoxShadow(
@@ -31,20 +32,22 @@ class WelcomePage extends StatelessWidget {
           children: [
             SizedBox(height: height * 0.05), // Dynamic sizing
             Container(
-              margin: EdgeInsets.only(right: 1), // Simplified for dynamic sizing
+              margin: const EdgeInsets.only(
+                  right: 1), // Simplified for dynamic sizing
               width: width * 0.8, // Dynamic width based on screen size
               height: height * 0.3, // Dynamic height based on screen size
-              child: Image(
+              child: const Image(
                 image: AssetImage('lib/images/logo.png'),
                 fit: BoxFit.cover,
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: height * 0.01, bottom: height * 0.07), // Dynamic sizing
+              margin: EdgeInsets.only(
+                  top: height * 0.01, bottom: height * 0.07), // Dynamic sizing
               constraints: BoxConstraints(
                 maxWidth: width * 0.6, // Dynamic width constraint
               ),
-              child: Text(
+              child: const Text(
                 'Welcome to Medi Findy!\n\nYour one-stop solution for finding medicines and pharmacies with ease. \nSearch, discover, and connect seamlessly. Get the medicines you need, when you need them.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -55,36 +58,41 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
             ),
-            _buildActionButton(context, 'Log In', height * 0.04, width), // Dynamic sizing
-            _buildActionButton(context, 'Sign Up', height * 0.04, width), // Dynamic sizing
+            _buildActionButton(
+                context, 'Log In', height * 0.04, width), // Dynamic sizing
+            _buildActionButton(
+                context, 'Sign Up', height * 0.04, width), // Dynamic sizing
           ],
         ),
       ),
     );
   }
 
-  Widget _buildActionButton(BuildContext context, String title, double height, double width) {
+  Widget _buildActionButton(
+      BuildContext context, String title, double height, double width) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SignInSignUpPage()),
+          MaterialPageRoute(builder: (context) => const SignInSignUpPage()),
         );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: height * 0.02, horizontal: width * 0.35), // Dynamic sizing
+        margin: EdgeInsets.symmetric(
+            vertical: height * 0.02,
+            horizontal: width * 0.35), // Dynamic sizing
         width: double.infinity,
         height: height, // Dynamic height
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff000000)),
-          color: Color(0xff7bd3ea),
+          border: Border.all(color: const Color(0xff000000)),
+          color: const Color(0xff7bd3ea),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Quicksand',
               fontSize: 15,
               fontWeight: FontWeight.bold,
