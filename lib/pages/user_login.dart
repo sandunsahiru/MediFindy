@@ -97,16 +97,18 @@ class _UserLoginPageState extends State<UserLoginPage> {
                   hintText: "Username"),
               PasswordField(
                   passwordController: _controller._passwordController),
-              PrimaryBtn(onPressed: () {
-                _controller.login().then((value) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                }).catchError((error) {
-                  CustomSnackbar.showWarning(context, error.toString());
-                });
-              })
+              PrimaryBtn(
+                  text: "LOGIN",
+                  onPressed: () {
+                    _controller.login().then((value) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    }).catchError((error) {
+                      CustomSnackbar.showWarning(context, error.toString());
+                    });
+                  })
             ],
           ),
         ),
@@ -146,7 +148,6 @@ class UserLoginController {
             message: 'No user found for the provided credentials.',
           );
         }
-
       } else {
         throw 'Invalid username';
       }

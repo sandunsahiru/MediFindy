@@ -97,18 +97,20 @@ class _PharmacyLoginPageState extends State<PharmacyLoginPage> {
               PasswordField(
                   passwordController: _controller._passwordController),
               // Login Button
-              PrimaryBtn(onPressed: () {
-                _controller.login().then((pharmacyId) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
-                }).catchError((e) {
-                  CustomSnackbar.showWarning(context, e.toString());
-                });
-              })
+              PrimaryBtn(
+                  text: "LOGIN",
+                  onPressed: () {
+                    _controller.login().then((pharmacyId) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    }).catchError((e) {
+                      CustomSnackbar.showWarning(context, e.toString());
+                    });
+                  })
             ],
           ),
         ),

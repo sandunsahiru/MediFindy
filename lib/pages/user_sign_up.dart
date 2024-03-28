@@ -101,17 +101,19 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
               PasswordField(
                   passwordController: _controller._passwordController),
               // SIGN UP Button
-              PrimaryBtn(onPressed: () async {
-                _controller.signUp().then((_) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserLoginPage()),
-                  );
-                }).catchError((e) {
-                  CustomSnackbar.showWarning(context, e.toString());
-                });
-              }),
+              PrimaryBtn(
+                  text: "SIGN UP",
+                  onPressed: () async {
+                    _controller.signUp().then((_) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserLoginPage()),
+                      );
+                    }).catchError((e) {
+                      CustomSnackbar.showWarning(context, e.toString());
+                    });
+                  }),
             ],
           ),
         ),

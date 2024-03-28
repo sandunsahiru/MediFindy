@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PrimaryBtn extends StatelessWidget {
+  final String text;
   final VoidCallback onPressed;
   const PrimaryBtn({
     Key? key,
     required this.onPressed,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -19,8 +21,8 @@ class PrimaryBtn extends StatelessWidget {
           color: const Color(0xff006a71),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Text(
-          'SIGN UP',
+        child: Text(
+          text,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,

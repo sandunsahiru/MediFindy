@@ -97,6 +97,20 @@ class _PharmacySignUpState extends State<PharmacySignUp> {
                 controller: _controller._pharmacyIdController,
                 hintText: 'Pharmacy ID',
               ),
+              EmailField(emailController: _controller._emailController),
+              CommonTextfield(
+                  controller: _controller._pharmacyNameController,
+                  hintText: "Pharmacy Name"),
+              CommonTextfield(
+                  controller: _controller._addressLine1Controller,
+                  hintText: "Address line 1"),
+              CommonTextfield(
+                  controller: _controller._addressLine2Controller,
+                  hintText: "Address line 2"),
+              CommonTextfield(
+                controller: _controller._cityController,
+                hintText: "City",
+              ),
               Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 74, vertical: 15),
@@ -110,7 +124,7 @@ class _PharmacySignUpState extends State<PharmacySignUp> {
                     isExpanded: true,
                     value: _controller._selectedValue,
                     hint: const Text(
-                      'Select an item',
+                      'Your district',
                       style: TextStyle(
                         color: Color(0xffb4b4b8),
                       ),
@@ -130,11 +144,11 @@ class _PharmacySignUpState extends State<PharmacySignUp> {
                   ),
                 ),
               ),
-              EmailField(emailController: _controller._emailController),
               PasswordField(
                 passwordController: _controller._passwordController,
               ),
               PrimaryBtn(
+                text: 'SIGN UP',
                 onPressed: () {
                   _controller.signUp().then((_) {
                     Navigator.push(
@@ -160,6 +174,10 @@ class PharmacySignUpController {
   final TextEditingController _pharmacyIdController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _pharmacyNameController = TextEditingController();
+  final TextEditingController _addressLine1Controller = TextEditingController();
+  final TextEditingController _addressLine2Controller = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -170,6 +188,10 @@ class PharmacySignUpController {
 
       final String pharmacyId = _pharmacyIdController.text.trim();
       final String email = _emailController.text.trim();
+      final String pharmacyName = _pharmacyNameController.text.trim();
+      final String addressLine1 = _addressLine1Controller.text.trim();
+      final String addressLine2 = _addressLine2Controller.text.trim();
+      final String city = _cityController.text.trim();
 
       final DocumentSnapshot pharmacyIdSnapshot = await _firestore
           .collection('pharmacyId_to_email')
@@ -198,6 +220,10 @@ class PharmacySignUpController {
         'pharmacyID': pharmacyId,
         'email': email,
         'district': _selectedValue,
+        'pharmacyName': pharmacyName,
+        'addressLine1': addressLine1,
+        'addressLine2': addressLine2,
+        'city': city,
       });
       closeLoadingAnimation();
     } catch (e) {
