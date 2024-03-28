@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -160,10 +161,11 @@ class UserSignupController {
             .set({
           'email': email,
         });
-
+        String? token = await FirebaseMessaging.instance.getToken();
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'username': username,
           'email': email,
+          'token': token,
         });
       } else {
         throw 'User was not created successfully. Please try again.';

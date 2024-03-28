@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy_appnew/pages/pharmacy/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
 import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
 import 'package:pharmacy_appnew/pages/widget/password_field.dart';
 import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
@@ -144,11 +145,18 @@ class PharmacyLoginController {
           email: email,
           password: password,
         );
+
+        if (userCredential.user != null) {
+          SessionManager().setPharmacyId(pharmacyId);
+        } else {
+          throw 'Invalid credentials';
+        }
+
+        closeLoadingAnimation();
         return pharmacyId;
       } else {
         throw 'Invalid pharmacy ID';
       }
-      closeLoadingAnimation();
     } catch (e) {
       closeLoadingAnimation();
       rethrow;

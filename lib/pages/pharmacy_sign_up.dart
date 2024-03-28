@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -213,6 +214,8 @@ class PharmacySignUpController {
         'email': email,
       });
 
+      String? token = await FirebaseMessaging.instance.getToken();
+
       await _firestore
           .collection('pharmacy_admins')
           .doc(userCredential.user!.uid)
@@ -224,6 +227,7 @@ class PharmacySignUpController {
         'addressLine1': addressLine1,
         'addressLine2': addressLine2,
         'city': city,
+        'token': token,
       });
       closeLoadingAnimation();
     } catch (e) {

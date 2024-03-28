@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pharmacy_appnew/pages/welcome_page.dart';
+import 'package:pharmacy_appnew/utils/custom_snack.dart';
+import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
 class SpecialRequest extends StatefulWidget {
   const SpecialRequest({Key? key}) : super(key: key);
@@ -12,34 +16,7 @@ class SpecialRequest extends StatefulWidget {
 }
 
 class _SpecialRequestState extends State<SpecialRequest> {
-  final TextEditingController _medicineNameController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
-  final TextEditingController _urgencyController = TextEditingController();
-  final TextEditingController _commentsController = TextEditingController();
-
-  Future<void> _sendSpecialRequest() async {
-    try {
-
-      await FirebaseFirestore.instance.collection('special_request').add({
-        'medicine_name': _medicineNameController.text.trim(),
-        'quantity': _quantityController.text.trim(),
-        'urgency_level': _urgencyController.text.trim(),
-        'additional_comments': _commentsController.text.trim(),
-        'request_time': FieldValue.serverTimestamp(),
-      });
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomePage()),
-      );
-    } catch (e) {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send special request. Please try again.')),
-      );
-    }
-  }
-
+  final SpecialRequestController _controller = SpecialRequestController();
   @override
   Widget build(BuildContext context) {
     double fem = 1; // Assuming you have defined fem somewhere
@@ -57,9 +34,10 @@ class _SpecialRequestState extends State<SpecialRequest> {
             // Your column setup
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0 * fem, 40 * fem, 0 * fem, 31 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 40 * fem, 0 * fem, 31 * fem),
                 padding:
-                EdgeInsets.fromLTRB(34 * fem, 4 * fem, 94 * fem, 4 * fem),
+                    EdgeInsets.fromLTRB(34 * fem, 4 * fem, 94 * fem, 4 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Color(0xff000000),
@@ -110,15 +88,15 @@ class _SpecialRequestState extends State<SpecialRequest> {
               Container(
                 // autogroupgnq5eHd (GpWyzUGWxk9rt6BwfLgNQ5)
                 padding:
-                EdgeInsets.fromLTRB(40 * fem, 0 * fem, 32 * fem, 0 * fem),
+                    EdgeInsets.fromLTRB(40 * fem, 0 * fem, 32 * fem, 0 * fem),
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       // screenshot284withoutnameremove (36:587)
-                      margin:
-                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 6 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 6 * fem, 0 * fem),
                       width: 130 * fem,
                       height: 130 * fem,
                       child: Image(
@@ -131,7 +109,8 @@ class _SpecialRequestState extends State<SpecialRequest> {
               ),
               Container(
                 // cantfindyourmedicinerequestith (36:583)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 22 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 22 * fem),
                 child: Text(
                   'Can\'t Find Your Medicine? Request It Here!',
                   textAlign: TextAlign.center,
@@ -146,9 +125,10 @@ class _SpecialRequestState extends State<SpecialRequest> {
               ),
               Container(
                 // autogrouplmrmKfM (GpWyMjpipNqpE2KZYPLMrM)
-                margin: EdgeInsets.fromLTRB(5 * fem, 0 * fem, 5 * fem, 35 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(5 * fem, 0 * fem, 5 * fem, 35 * fem),
                 padding:
-                EdgeInsets.fromLTRB(8 * fem, 17 * fem, 8 * fem, 18 * fem),
+                    EdgeInsets.fromLTRB(8 * fem, 17 * fem, 8 * fem, 18 * fem),
                 width: 350,
                 decoration: BoxDecoration(
                   color: Color(0xffffffff),
@@ -195,6 +175,8 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                 width: 200 * fem,
                                 height: 35 * fem,
                                 child: TextField(
+                                  controller:
+                                      _controller._medicineNameController,
                                   decoration: InputDecoration(
                                     hintText: 'Type here...',
                                     hintStyle: TextStyle(
@@ -206,7 +188,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.circular(7 * fem),
+                                          BorderRadius.circular(7 * fem),
                                       borderSide: BorderSide.none,
                                     ),
                                     filled: true,
@@ -226,6 +208,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                 width: 200 * fem,
                                 height: 35 * fem,
                                 child: TextField(
+                                  controller: _controller._quantityController,
                                   decoration: InputDecoration(
                                     hintText: 'Type here...',
                                     hintStyle: TextStyle(
@@ -237,7 +220,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.circular(7 * fem),
+                                          BorderRadius.circular(7 * fem),
                                       borderSide: BorderSide.none,
                                     ),
                                     filled: true,
@@ -257,6 +240,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                 width: 200 * fem,
                                 height: 35 * fem,
                                 child: TextField(
+                                  controller: _controller._urgencyController,
                                   decoration: InputDecoration(
                                     hintText: 'Type here...',
                                     hintStyle: TextStyle(
@@ -268,7 +252,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.circular(7 * fem),
+                                          BorderRadius.circular(7 * fem),
                                       borderSide: BorderSide.none,
                                     ),
                                     filled: true,
@@ -290,6 +274,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                         color: Color(0xffefecec),
                       ),
                       child: TextField(
+                        controller: _controller._commentsController,
                         maxLines: null, // Allows for multiple lines of text
                         decoration: InputDecoration(
                           hintText: 'Type  here...',
@@ -309,10 +294,17 @@ class _SpecialRequestState extends State<SpecialRequest> {
                 ),
               ),
               GestureDetector(
-                onTap: _sendSpecialRequest,
+                onTap: () async {
+                  _controller
+                      ._sendSpecialRequest()
+                      .then((value) {})
+                      .onError((error, stackTrace) {
+                    CustomSnackbar.showWarning(context, error.toString());
+                  });
+                },
                 child: Container(
                   margin:
-                  EdgeInsets.fromLTRB(23 * fem, 0 * fem, 23 * fem, 0 * fem),
+                      EdgeInsets.fromLTRB(23 * fem, 0 * fem, 23 * fem, 0 * fem),
                   width: double.infinity,
                   height: 40 * fem,
                   decoration: BoxDecoration(
@@ -442,5 +434,30 @@ class _SpecialRequestState extends State<SpecialRequest> {
         ),
       ),
     );
+  }
+}
+
+class SpecialRequestController {
+  final TextEditingController _medicineNameController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _urgencyController = TextEditingController();
+  final TextEditingController _commentsController = TextEditingController();
+
+  Future<void> _sendSpecialRequest() async {
+    try {
+      showLoadingAnimation();
+      await FirebaseFirestore.instance.collection('special_request').add({
+        'medicine_name': _medicineNameController.text.trim(),
+        'quantity': _quantityController.text.trim(),
+        'urgency_level': _urgencyController.text.trim(),
+        'additional_comments': _commentsController.text.trim(),
+        'user_id': SessionManager().userId,
+        'request_time': FieldValue.serverTimestamp(),
+      });
+      closeLoadingAnimation();
+    } catch (e) {
+      closeLoadingAnimation();
+      throw "Failed to send request: $e";
+    }
   }
 }
