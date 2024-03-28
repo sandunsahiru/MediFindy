@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmacy_appnew/pages/home.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pharmacy_appnew/pages/widget/common_textfiled.dart';
 import 'package:pharmacy_appnew/pages/widget/password_field.dart';
