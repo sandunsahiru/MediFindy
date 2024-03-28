@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const PharmacyListPage()),
+                                             PharmacyListPage()),
                                   );
                                 },
                                 child: Container(

@@ -240,12 +240,21 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
 
               GestureDetector(
                 onTap: () {
-                  // Navigate to another page when tapped
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReviewAndRating()),
-                  );
+                  // Navigate to the ReviewAndRating page when tapped
+                  if (widget.pharmacyId != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReviewAndRating(pharmacyId: widget.pharmacyId),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Pharmacy ID not found. Please try again later.')),
+                    );
+                  }
                 },
+
                 child: Container(
                   // autogroup24nqHaP (GpWtf89y2TEXGmRCzW24Nq)
                   margin: EdgeInsets.fromLTRB(

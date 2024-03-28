@@ -1,127 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pharmacy_appnew/pages/about_pharmacy.dart';
-import 'package:pharmacy_appnew/pages/home.dart';
-import 'package:pharmacy_appnew/pages/account.dart';
-import 'package:pharmacy_appnew/pages/settings.dart';
 
 class PharmacyListPage extends StatefulWidget {
-  const PharmacyListPage({Key? key}) : super(key: key);
-
   @override
   _PharmacyListPageState createState() => _PharmacyListPageState();
 }
 
 class _PharmacyListPageState extends State<PharmacyListPage> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<List<QueryDocumentSnapshot>> getPharmacies() async {
-    var pharmacies = await _firestore.collection('pharmacies').get();
-    return pharmacies.docs;
-  }
+  String? selectedCity;
+  List<String> cities = [
+    'Colombo', 'Kandy', 'Galle', 'Matara', 'Jaffna',
+    'Anuradhapura', 'Ratnapura', 'Badulla', 'Trincomalee', 'Kurunegala',
+  ];
+  List<Map<String, dynamic>> pharmacies = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(color: Color(0xffefffff)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Header
-              Container(
-                margin: EdgeInsets.only(top: 40, bottom: 31),
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                width: double.infinity,
-                decoration: BoxDecoration(color: Color(0xff000000)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Text('<', style: TextStyle(color: Color(0xffffffff), fontSize: 20, fontWeight: FontWeight.w700)),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'List of Pharmacies',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Color(0xffffffff), fontSize: 24, fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ],
+      appBar: AppBar(
+        title: Text('Pharmacies Nearby'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Select Your City',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            DropdownButton<String>(
+              value: selectedCity,
+              isExpanded: true,
+              items: cities.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedCity = newValue;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: fetchPharmacies, // Fetch pharmacies when the button is pressed
+              child: Text('Search'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              Image.asset('lib/images/logo.png', width: 130, height: 130),
-
-              // Dynamic list of pharmacies
-              FutureBuilder<List<QueryDocumentSnapshot>>(
-                future: getPharmacies(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text("No pharmacies found"));
-                  }
-                  return Column(
-                    children: snapshot.data!.map((pharmacy) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: pharmacies.length,
+                itemBuilder: (context, index) {
+                  final pharmacy = pharmacies[index];
+                  return Card(
+                    margin: EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(pharmacy['name'], style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text('Location: ${pharmacy['location']}'),
+                      trailing: Icon(Icons.arrow_forward),
+                      onTap: () {
+                        Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AboutPharmacy(pharmacyId: pharmacy['id'])),
-                        ),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                          padding: EdgeInsets.all(12),
-                          width: double.infinity,
-                          decoration: BoxDecoration(color: Color(0xffdddddd), borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            pharmacy['name'],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                          MaterialPageRoute(
+                            builder: (context) => AboutPharmacy(pharmacyId: pharmacy['id']),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
-
-              // Navigation bar
-              Positioned(
-                bottom: 0,
-                child: BottomNavigationBar(
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-                    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-                    BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account'),
-                    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-                  ],
-                  onTap: (index) {
-                    // Handle navigation tap
-                    switch (index) {
-                      case 0:
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                        break;
-                      case 1:
-                      // Navigate to search or current page refresh
-                        break;
-                      case 2:
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountPage()));
-                        break;
-                      case 3:
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
-                        break;
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  void fetchPharmacies() async {
+    if (selectedCity == null || selectedCity!.isEmpty) return;
+
+    try {
+      // Search for all pharmacies in the 'pharmacy_admins' collection that are in the selected city
+      var querySnapshot = await FirebaseFirestore.instance
+          .collection('pharmacy_admins')
+          .where('city', isEqualTo: selectedCity)
+          .get();
+
+      List<Map<String, dynamic>> loadedPharmacies = querySnapshot.docs.map((doc) {
+        return {
+          'name': doc.data()['pharmacyName'] as String,
+          'location': '${doc.data()['addressLine1']}, ${doc.data()['addressLine2']}',
+          'id': doc.data()['pharmacyID'] as String,
+        };
+      }).toList();
+
+      setState(() {
+        pharmacies = loadedPharmacies;
+      });
+    } catch (e) {
+      print('Error fetching pharmacies: $e');
+    }
   }
 }
