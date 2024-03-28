@@ -28,80 +28,51 @@ class _SearchMedicinesState extends State<SearchMedicines> {
   }
 
   void searchMedicine() async {
-    // Log the query and city for debugging
-    print('Searching for medicine: ${widget.query} in city: ${widget.city}');
-
-    // Get the pharmacy IDs from the city
-    final pharmacyIdsResult = await FirebaseFirestore.instance
+    // Search for all pharmacies in the 'pharmacy_admins' collection that are in the city.
+    final pharmacyAdminQuery = await FirebaseFirestore.instance
         .collection('pharmacy_admins')
         .where('city', isEqualTo: widget.city)
         .get();
 
-    final List<String> pharmacyIds = pharmacyIdsResult.docs
+    // Extract pharmacy IDs from the query results.
+    final pharmacyIDs = pharmacyAdminQuery.docs
         .map((doc) => doc.data()['pharmacyID'] as String)
         .toList();
 
-    // Log the pharmacy IDs found
-    print('Pharmacy IDs found: $pharmacyIds');
-
-    // Now get the pharmacies which have the medicine
-    final medicinesResult = await FirebaseFirestore.instance
+    // Now, with the list of pharmacy IDs, find all medicines that match the search query and are in one of the pharmacies.
+    final medicinesQuery = await FirebaseFirestore.instance
         .collection('medicines')
         .where('medicine', arrayContains: widget.query.toLowerCase())
-        .where('pharmacyID', whereIn: pharmacyIds)
+        .where('pharmacyID', whereIn: pharmacyIDs)
         .get();
 
-    // Log the number of medicine documents found
-    print('Medicine documents found: ${medicinesResult.docs.length}');
-
+    // Construct a list of pharmacies with the medicines in stock and their details from the 'pharmacy_admins' collection.
     List<Map<String, dynamic>> loadedPharmacies = [];
-    for (var medicineDoc in medicinesResult.docs) {
-      final pharmacyData = await FirebaseFirestore.instance
+    for (var doc in medicinesQuery.docs) {
+      var pharmacyID = doc.data()['pharmacyID'] as String;
+      // Query the 'pharmacy_admins' collection for a document with the matching 'pharmacyID'.
+      var pharmacyDoc = await FirebaseFirestore.instance
           .collection('pharmacy_admins')
-          .doc(medicineDoc['pharmacyID'])
+          .where('pharmacyID', isEqualTo: pharmacyID)
           .get();
 
-      if (pharmacyData.exists) {
+      if (pharmacyDoc.docs.isNotEmpty) {
+        // Assuming only one pharmacy should match the ID.
+        var pharmacyDetails = pharmacyDoc.docs.first.data();
         loadedPharmacies.add({
-          "name": pharmacyData['pharmacyName'],
-          "location": pharmacyData['addressLine1'] + ', ' + pharmacyData['addressLine2'],
-          "id": medicineDoc['pharmacyID'],
-          "medicines": medicineDoc['medicine'],
+          "name": pharmacyDetails['pharmacyName'],
+          "location": "${pharmacyDetails['addressLine1']}, ${pharmacyDetails['addressLine2']}",
+          "id": pharmacyID,
+          "medicines": doc.data()['medicine'],
         });
-        // Log each pharmacy found with the medicine
-        print('Pharmacy found: ${pharmacyData['pharmacyName']} with medicine: ${widget.query}');
       }
-    }
-
-    if (loadedPharmacies.isEmpty) {
-      // If no pharmacies are loaded, log a message
-      print('No pharmacies found carrying medicine: ${widget.query}');
     }
 
     setState(() {
       pharmacies = loadedPharmacies;
     });
-    for (var medicineDoc in medicinesResult.docs) {
-      final pharmacyDocRef = FirebaseFirestore.instance
-          .collection('pharmacy_admins')
-          .doc(medicineDoc['pharmacyID']);
-      final pharmacyData = await pharmacyDocRef.get();
-
-      if (pharmacyData.exists) {
-        print('Pharmacy data: ${pharmacyData.data()}'); // Add this line to print the pharmacy data
-        loadedPharmacies.add({
-          "name": pharmacyData.data()?['pharmacyName'] ?? 'Unknown Pharmacy',
-          "location": (pharmacyData.data()?['addressLine1'] ?? '') + ', ' + (pharmacyData.data()?['addressLine2'] ?? ''),
-          "id": medicineDoc['pharmacyID'],
-          "medicines": medicineDoc['medicine'],
-        });
-        print('Pharmacy found: ${pharmacyData.data()?['pharmacyName']} with medicine: ${widget.query}');
-      } else {
-        // Log if the pharmacy data does not exist or is not found
-        print('Pharmacy data with ID ${medicineDoc['pharmacyID']} does not exist.');
-      }
-    }
   }
+
 
 
 
