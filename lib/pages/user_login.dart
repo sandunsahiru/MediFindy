@@ -9,6 +9,7 @@ import 'package:pharmacy_appnew/pages/widget/password_field.dart';
 import 'package:pharmacy_appnew/pages/widget/primary_btn.dart';
 import 'package:pharmacy_appnew/utils/custom_snack.dart';
 import 'package:pharmacy_appnew/utils/loading_animation.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -100,7 +101,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                 _controller.login().then((value) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 }).catchError((error) {
                   CustomSnackbar.showWarning(context, error.toString());
@@ -137,6 +138,15 @@ class UserLoginController {
           email: email,
           password: password,
         );
+        if (userCredential.user != null) {
+          SessionManager().setUserId(userCredential.user!.uid);
+        } else {
+          throw FirebaseAuthException(
+            code: 'USER_NOT_FOUND',
+            message: 'No user found for the provided credentials.',
+          );
+        }
+
       } else {
         throw 'Invalid username';
       }

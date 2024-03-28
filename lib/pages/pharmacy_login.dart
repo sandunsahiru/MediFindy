@@ -98,11 +98,11 @@ class _PharmacyLoginPageState extends State<PharmacyLoginPage> {
                   passwordController: _controller._passwordController),
               // Login Button
               PrimaryBtn(onPressed: () {
-                _controller.login().then((value) {
+                _controller.login().then((pharmacyId) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => HomePage(),
                     ),
                   );
                 }).catchError((e) {
@@ -123,8 +123,9 @@ class PharmacyLoginController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> login() async {
+  Future<String> login() async {
     try {
+      inputValidation();
       String pharmacyId = _pharmacyIdController.text.trim();
       String password = _passwordController.text.trim();
       showLoadingAnimation();
@@ -141,6 +142,7 @@ class PharmacyLoginController {
           email: email,
           password: password,
         );
+        return pharmacyId;
       } else {
         throw 'Invalid pharmacy ID';
       }

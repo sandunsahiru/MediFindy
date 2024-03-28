@@ -70,7 +70,7 @@ class _PharmacyListPageState extends State<PharmacyListPage> {
                       return GestureDetector(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AboutPharmacy()),
+                          MaterialPageRoute(builder: (context) => AboutPharmacy(pharmacyId: pharmacy['id'])),
                         ),
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),

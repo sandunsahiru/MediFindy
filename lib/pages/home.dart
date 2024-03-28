@@ -6,18 +6,43 @@ import 'package:pharmacy_appnew/pages/search_medicines.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 import 'package:pharmacy_appnew/pages/special_request.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key); // Removed const
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TextEditingController searchTextController = TextEditingController();
+  String? selectedCity;
+  final List<String> cities = [
+    'Colombo', 'Kandy', 'Galle', 'Matara', 'Jaffna',
+    'Anuradhapura', 'Ratnapura', 'Badulla', 'Trincomalee', 'Kurunegala',
+  ];
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final String? userId = SessionManager().userId;
+    final String? pharmacyId = SessionManager().pharmacyId;
     final double fem = 1.0; // Set your value of fem here
     final double ffem = 1.0; // Set your value of ffem here
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        child: Stack(children: [
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
           Container(
             width: double.infinity,
             height: 804 * fem,
@@ -69,110 +94,86 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(
-                              25 * fem, 5 * fem, 25 * fem, 10 * fem),
-                          padding: EdgeInsets.symmetric(horizontal: 10 * fem),
+                          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.01),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color.fromARGB(255, 193, 219, 235)
-                                    .withOpacity(0.5),
+                                color: Color.fromARGB(255, 193, 219, 235).withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: const Offset(0, 3),
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
                           child: Row(
                             children: [
-                              const Expanded(
+                              Expanded(
                                 child: TextField(
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                  ),
+                                  controller: searchTextController,
                                   decoration: InputDecoration(
                                     hintText: 'Search for Medicines...',
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  onTap: () {
-                                    // Navigate to another page
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SearchMedicines()),
-                                    );
-                                  },
-                                  child: const Icon(Icons.search)),
+                              DropdownButton<String>(
+                                value: selectedCity,
+                                hint: Text("Select Your City"),
+                                items: cities.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedCity = newValue!;
+                                  });
+                                },
+                              ),
                             ],
                           ),
                         ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.01),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (selectedCity == null || searchTextController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Please select a city and enter a search query.'))
+                                );
+                                return;
+                              }
+                              // Get the userId from SessionManager
+                              String? userId = SessionManager().userId;
 
-                        GestureDetector(
-                          onTap: () {
-                            // Navigate to another page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LocationPage()),
-                            );
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(
-                                10 * fem, 10 * fem, 10 * fem, 0 * fem),
+                              // Check if a user is logged in; otherwise, do not proceed
+                              if (userId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('No user logged in.'))
+                                );
+                                return;
+                              }
 
-                            width: 340 * fem, // Decrease width
-                            height: 45 * fem, // Decrease height
-                            decoration: BoxDecoration(
-                              color:
-                                  const Color(0xffDCF2F1), // Background color
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Rounded corners
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      const Color.fromARGB(255, 194, 229, 245)
-                                          .withOpacity(0.5), // Shadow color
-                                  spreadRadius: 2, // Spread radius
-                                  blurRadius: 5, // Blur radius
-                                  offset: const Offset(0, 3), // Offset
-                                ),
-                              ],
-                            ),
-
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 50 * fem,
-                                  height: 50 * fem,
-                                  child: const Image(
-                                    image: AssetImage(
-                                        'lib/images/location.png'), // Image asset
-                                    fit: BoxFit.cover,
+                              // Navigate to the SearchMedicines page with only the userId
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchMedicines(
+                                    city: selectedCity!,
+                                    query: searchTextController.text.trim(),
+                                    userId: userId, // Now only passing the userId
                                   ),
                                 ),
-                                const SizedBox(
-                                    width: 10), // Spacer between image and text
-                                Text(
-                                  'Click Here to Set Your Location!!!',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize:
-                                        16 * fem, // Adjust font size as needed
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(
-                                        0xffFF407D), // Adjust text color as needed
-                                  ),
-                                ),
-                              ],
-                            ),
+                              );
+                            },
+                            child: Text('Search'),
                           ),
                         ),
+
                         const SizedBox(
                           height: 20,
                         ),
@@ -272,6 +273,7 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           ),
+
                         ),
 
                         const SizedBox(
@@ -391,7 +393,7 @@ class HomePage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const HomePage()),
+                                                   HomePage()),
                                         );
                                       },
                                       child: SizedBox(
@@ -418,7 +420,7 @@ class HomePage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const HomePage()),
+                                                   HomePage()),
                                         );
                                       },
                                       child: SizedBox(

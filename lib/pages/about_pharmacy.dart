@@ -5,7 +5,8 @@ import 'package:pharmacy_appnew/pages/reviews_and_rating.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 
 class AboutPharmacy extends StatelessWidget {
-  const AboutPharmacy({Key? key}) : super(key: key);
+  final String pharmacyId;
+  const AboutPharmacy({Key? key, required this.pharmacyId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
