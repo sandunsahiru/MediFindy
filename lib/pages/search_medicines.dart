@@ -75,68 +75,6 @@ class _SearchMedicinesState extends State<SearchMedicines> {
 
 
 
-
-
-  // void searchMedicine() async {
-  //   // Fetch pharmacy IDs based on the city from the 'pharmacy_admins' collection
-  //   final pharmacyAdminsResult = await FirebaseFirestore.instance
-  //       .collection('pharmacy_admins')
-  //       .where('city', isEqualTo: widget.city)
-  //       .get();
-  //
-  //   // Extract pharmacy IDs from the query result
-  //   final List<String> pharmacyIds = pharmacyAdminsResult.docs
-  //       .map((doc) => doc.data()['pharmacyID'] as String)
-  //       .toList();
-  //
-  //   // Check if pharmacy IDs were found
-  //   if (pharmacyIds.isEmpty) {
-  //     print('No pharmacies found for the city ${widget.city}');
-  //     return;
-  //   }
-  //
-  //   // Fetch medicines data from the 'medicines' collection where the medicine array contains the search query
-  //   final medicinesResult = await FirebaseFirestore.instance
-  //       .collection('medicines')
-  //       .where('medicine', arrayContains: widget.query.toLowerCase())
-  //       .where('pharmacyID', whereIn: pharmacyIds)
-  //       .get();
-  //
-  //   // Construct a list of pharmacies with their details and the medicines they carry
-  //   List<Map<String, dynamic>> loadedPharmacies = [];
-  //   for (var medicineDoc in medicinesResult.docs) {
-  //     var docData = medicineDoc.data() as Map<String, dynamic>;
-  //     // Fetch the detailed data of the pharmacy using the pharmacyID obtained from medicines
-  //     final pharmacyDetailResult = await FirebaseFirestore.instance
-  //         .collection('pharmacy_admins')
-  //         .doc(docData['pharmacyID'])
-  //         .get();
-  //
-  //     if (pharmacyDetailResult.exists) {
-  //       var pharmacyData = pharmacyDetailResult.data() as Map<String, dynamic>;
-  //       loadedPharmacies.add({
-  //         "name": pharmacyData['pharmacyName'],
-  //         "location": "${pharmacyData['addressLine1']}, ${pharmacyData['addressLine2']}",
-  //         "id": medicineDoc['pharmacyID'],
-  //         "medicines": docData['medicine'], // Assuming 'medicine' is an array of strings
-  //       });
-  //     }
-  //   }
-  //
-  //   // Update the state to display the pharmacies
-  //   setState(() {
-  //     pharmacies = loadedPharmacies;
-  //   });
-  //
-  //   // If no pharmacies were loaded, it might be a good idea to handle this case (e.g., display a message)
-  //   if (loadedPharmacies.isEmpty) {
-  //     print('No pharmacies found carrying medicine: ${widget.query}');
-  //   }
-  // }
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,17 +104,21 @@ class _SearchMedicinesState extends State<SearchMedicines> {
               itemCount: pharmacies.length,
               itemBuilder: (context, index) {
                 final pharmacy = pharmacies[index];
-                return ListTile(
-                  title: Text(pharmacy['name']),
-                  subtitle: Text('Location: ${pharmacy['location']}'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AboutPharmacy(pharmacyId: pharmacy['id']),
-                      ),
-                    );
-                  },
+                return Card(
+                  margin: EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(pharmacy['name'], style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text('Location: ${pharmacy['location']}'),
+                    trailing: Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AboutPharmacy(pharmacyId: pharmacy['id']),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),

@@ -3,75 +3,146 @@ import 'package:pharmacy_appnew/pages/account.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 import 'package:pharmacy_appnew/pages/reviews_and_rating.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
 
-class AboutPharmacy extends StatelessWidget {
+class AboutPharmacy extends StatefulWidget {
   final String pharmacyId;
+
   const AboutPharmacy({Key? key, required this.pharmacyId}) : super(key: key);
 
   @override
+  _AboutPharmacyState createState() => _AboutPharmacyState();
+}
+
+class _AboutPharmacyState extends State<AboutPharmacy> {
+  Map<String, dynamic>? pharmacyDetails;
+  List<Map<String, dynamic>> reviews = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPharmacyDetails();
+    fetchReviews();
+  }
+
+  Future<void> fetchPharmacyDetails() async {
+    // Trim any leading/trailing whitespace from the pharmacyId
+    String trimmedPharmacyId = widget.pharmacyId.trim();
+    print("Trimmed Pharmacy ID: $trimmedPharmacyId");
+
+    try {
+      // Query the pharmacy_admins collection for the documents with the matching pharmacyId
+      var pharmacyQuery = await FirebaseFirestore.instance
+          .collection('pharmacy_admins')
+          .where('pharmacyID', isEqualTo: trimmedPharmacyId)
+          .get();
+
+      if (pharmacyQuery.docs.isNotEmpty) {
+        var pharmacyData = pharmacyQuery.docs.first.data();
+        setState(() {
+          pharmacyDetails = pharmacyData;
+        });
+        print('Pharmacy details found: $pharmacyDetails');
+      } else {
+        print("No matching pharmacy details found for ID: $trimmedPharmacyId");
+      }
+    } catch (e) {
+      print("Error fetching pharmacy details: $e");
+    }
+  }
+
+
+
+
+  Future<void> fetchReviews() async {
+    // Get the reviews from Firestore
+    String trimmedPharmacyId = widget.pharmacyId.trim();
+    print("Trimmed Pharmacy ID: $trimmedPharmacyId");
+
+    var reviewsSnapshot = await FirebaseFirestore.instance
+        .collection('reviews')
+        .where('pharmacyID', isEqualTo: trimmedPharmacyId)
+        .get();
+
+    List<Map<String, dynamic>> loadedReviews = [];
+
+    for (var reviewDoc in reviewsSnapshot.docs) {
+      var userDocId = reviewDoc.data()['userId'];
+      if (userDocId != null) {
+        print("User ID from review: $userDocId");
+        var userData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userDocId) // Use the userId to get the corresponding user document
+            .get();
+
+        if (userData.exists) {
+          loadedReviews.add({
+            "username": userData.data()?['username'] ?? 'Anonymous',
+            "comment": reviewDoc.data()['comment'],
+            "rating": reviewDoc.data()['rating'],
+          });
+        } else {
+          print('Error: User data not found for ID: $userDocId');
+        }
+      } else {
+        print('Error: Review document does not contain a userId field');
+      }
+    }
+
+    setState(() {
+      reviews = loadedReviews;
+    });
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    double fem = 1; // Assuming you have defined fem somewhere
-    double ffem = 1; // Assuming you have defined ffem somewhere
+    double fem = 1; // Adjust as per your scaling factor
+    double ffem = 1; // Adjust as per your font scaling factor
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          height: 805,
           decoration: BoxDecoration(
             color: Color(0xffefffff),
           ),
           child: Column(
             children: [
               Container(
-                // autogroup4wcreEj (GpWrb6md7ChqHrGZhS4wCR)
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 30 * fem, 0 * fem, 31 * fem),
-                padding:
-                    EdgeInsets.fromLTRB(34 * fem, 4 * fem, 114 * fem, 4 * fem),
+                margin: EdgeInsets.fromLTRB(0, 30 * fem, 0, 31 * fem),
+                padding: EdgeInsets.fromLTRB(34 * fem, 4 * fem, 114 * fem, 4 * fem),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xff000000),
-                ),
+                decoration: BoxDecoration(color: Color(0xff000000)),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        // Navigate to another page when tapped
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
-                        );
-                      },
-                      child: Container(
-                        // Jq5 (30:473)
-                        margin: EdgeInsets.fromLTRB(
-                            0 * fem, 0 * fem, 69 * fem, 0 * fem),
-                        child: Text(
-                          '<',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Quicksand',
-                            fontSize: 20 * ffem,
-                            fontWeight: FontWeight.w700,
-                            height: 1.25 * ffem / fem,
-                            color: Color(0xffffffff),
-                          ),
-                        ),
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 24 * ffem, // Adjust the size factor according to your design
                       ),
                     ),
                     Text(
-                      // aboutpharmacynVM (30:472)
                       'About Pharmacy',
-                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 20 * ffem,
                         fontWeight: FontWeight.w700,
-                        height: 1.25 * ffem / fem,
                         color: Color(0xffffffff),
+                      ),
+                    ),
+                    Opacity(
+                      opacity: 0,
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 24 * ffem,
                       ),
                     ),
                   ],
@@ -80,9 +151,11 @@ class AboutPharmacy extends StatelessWidget {
               Container(
                 // klmpharmacyvbZ (30:475)
                 margin:
-                    EdgeInsets.fromLTRB(5 * fem, 0 * fem, 16 * fem, 0 * fem),
+                EdgeInsets.fromLTRB(5 * fem, 0 * fem, 16 * fem, 0 * fem),
                 child: Text(
-                  'KLM Pharmacy',
+                  pharmacyDetails != null
+                      ? pharmacyDetails!['pharmacyName']
+                      : 'Loading...',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Quicksand',
@@ -93,10 +166,11 @@ class AboutPharmacy extends StatelessWidget {
                   ),
                 ),
               ),
+
               Container(
                 // freevectorpharmacist18hd (30:476)
                 margin:
-                    EdgeInsets.fromLTRB(0 * fem, 10 * fem, 7 * fem, 10 * fem),
+                EdgeInsets.fromLTRB(0 * fem, 10 * fem, 7 * fem, 10 * fem),
                 width: 152 * fem,
                 height: 132 * fem,
                 child: Image(
@@ -104,641 +178,66 @@ class AboutPharmacy extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              Container(
-                // autogroupn1xyTE7 (GpWrnBHVrEXdCkzTUoN1xy)
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 10 * fem),
-                padding:
-                    EdgeInsets.fromLTRB(24 * fem, 5 * fem, 37 * fem, 4 * fem),
-                width: 350,
-                height: 58 * fem,
-                decoration: BoxDecoration(
-                  color: Color(0xffc1f2b0),
-                  borderRadius: BorderRadius.circular(5 * fem),
+              // Dynamic section for displaying pharmacy details
+              if (pharmacyDetails != null)
+                Container(
+                    margin: EdgeInsets.all(10 * fem),
+                    padding: EdgeInsets.all(10 * fem),
+                    decoration: BoxDecoration(
+                      color: Color(0xffc1f2b0),
+                      borderRadius: BorderRadius.circular(5 * fem),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(pharmacyDetails?['pharmacyName'] ?? 'Pharmacy Name',
+                            style: TextStyle(
+                                fontSize: 20 * ffem,
+                                fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10),
+                        Text('${pharmacyDetails?['addressLine1'] ?? 'Address'}, ${pharmacyDetails?['addressLine2'] ?? ''}',
+                            style: TextStyle(fontSize: 14 * ffem)),
+                        SizedBox(height: 5),
+                        Text('City: ${pharmacyDetails?['city'] ?? 'N/A'}',
+                            style: TextStyle(fontSize: 14 * ffem)),
+                        SizedBox(height: 5),
+                        Text('District: ${pharmacyDetails?['district'] ?? 'N/A'}',
+                            style: TextStyle(fontSize: 14 * ffem)),
+                        SizedBox(height: 5),
+                        Text('Email: ${pharmacyDetails?['email'] ?? 'N/A'}',
+                            style: TextStyle(fontSize: 14 * ffem)),
+                      ],
+                    )
+
                 ),
-                child: Center(
-                  // addressno59malwattaroadwadduwa (31:488)
-                  child: SizedBox(
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 254 * fem,
-                      ),
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontFamily: 'Quicksand',
-                            fontSize: 13 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.25 * ffem / fem,
-                            color: Color(0xff000000),
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Address ',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'No59, Malwatta Road, Wadduwa\n',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff495464),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Contact Details ',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            TextSpan(
-                              text: '074-2234887\n',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff495464),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Operating Hours ',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            TextSpan(
-                              text: '08.00 a.m. to 09.00 p.m.',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 13 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff495464),
-                              ),
-                            ),
-                          ],
-                        ),
+
+              // Dynamic section for displaying reviews
+              reviews.isNotEmpty
+                  ? ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: reviews.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(reviews[index]['username']),
+                      subtitle: Text(reviews[index]['comment']),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(5, (starIndex) {
+                          return Icon(
+                            Icons.star,
+                            color: starIndex < reviews[index]['rating']
+                                ? Colors.amber
+                                : Colors.grey,
+                          );
+                        }),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // Navigate to another page when tapped
+                  );
                 },
-                child: Container(
-                  // autogroupgagpX4K (KjockFG45Aqo4dGdZVGAGP)
-                  margin:
-                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 10 * fem),
-                  padding:
-                      EdgeInsets.fromLTRB(15 * fem, 6 * fem, 5 * fem, 5 * fem),
-                  width: 130,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xffFAE7F3),
-                    borderRadius: BorderRadius.circular(10 * fem),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        // accountEzK (38:712)
-                        margin: EdgeInsets.fromLTRB(
-                            12 * fem, 0 * fem, 5 * fem, 1 * fem),
-                        child: Text(
-                          'Locate  📍',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Quicksand',
-                            fontSize: 16 * ffem,
-                            fontWeight: FontWeight.w700,
-                            height: 1.25 * ffem / fem,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                // autogroupwi6hELf (GpWrxLfEUDaub8KG7BWi6h)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 5 * fem),
-                width: 350,
-                height: 80 * fem,
-                decoration: BoxDecoration(
-                  color: Color(0xffffffff),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      // greatpharmacytheyhadthemedicin (92:9)
-                      left: 6 * fem,
-                      top: 48 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 284 * fem,
-                          height: 28 * fem,
-                          child: Text(
-                            'Great pharmacy! They had the medicine I needed, quick and easy to find what I was looking for.',
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 11 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.25 * ffem / fem,
-                              color: Color(0xff3d3b40),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // udeshitashanaudeshiiitashgmail (92:7)
-                      left: 53 * fem,
-                      top: 7 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 127 * fem,
-                          height: 43 * fem,
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Udeshi Tashana               \n',
-                                ),
-                                TextSpan(
-                                  text: 'udeshiiitash@gmail.com',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 10 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.25 * ffem / fem,
-                                    color: Color(0xffb6bbc4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // 6vb (92:6)
-                      left: 6 * fem,
-                      top: 4 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 34 * fem,
-                          height: 34 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/Reviewuser.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star1Rxs (95:15)
-                      left: 213 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star2Mbd (95:16)
-                      left: 230 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star3q11 (95:17)
-                      left: 247 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star4m9Z (95:18)
-                      left: 264 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star5Gs1 (95:19)
-                      left: 281 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                // autogroupwi6hELf (GpWrxLfEUDaub8KG7BWi6h)
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 10 * fem, 0 * fem, 5 * fem),
-                width: 350,
-                height: 80 * fem,
-                decoration: BoxDecoration(
-                  color: Color(0xffffffff),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      // greatpharmacytheyhadthemedicin (92:9)
-                      left: 6 * fem,
-                      top: 48 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 284 * fem,
-                          height: 28 * fem,
-                          child: Text(
-                            // greatselectionofmedicinesfound (95:83)
-                            'Great selection of medicines, found what I needed easily.',
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 11 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.25 * ffem / fem,
-                              color: Color(0xff3d3b40),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // udeshitashanaudeshiiitashgmail (92:7)
-                      left: 53 * fem,
-                      top: 7 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 127 * fem,
-                          height: 43 * fem,
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Malshi Perera             \n',
-                                ),
-                                TextSpan(
-                                  text: 'permalshi123@gmail.com',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 10 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.25 * ffem / fem,
-                                    color: Color(0xffb6bbc4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // 6vb (92:6)
-                      left: 6 * fem,
-                      top: 4 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 34 * fem,
-                          height: 34 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/Reviewuser.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star1Rxs (95:15)
-                      left: 213 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star2Mbd (95:16)
-                      left: 230 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star3q11 (95:17)
-                      left: 247 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star4m9Z (95:18)
-                      left: 264 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star_empty.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star5Gs1 (95:19)
-                      left: 281 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star_empty.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                // autogroupwi6hELf (GpWrxLfEUDaub8KG7BWi6h)
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 10 * fem, 0 * fem, 5 * fem),
-                width: 350,
-                height: 80 * fem,
-                decoration: BoxDecoration(
-                  color: Color(0xffffffff),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      // greatpharmacytheyhadthemedicin (92:9)
-                      left: 6 * fem,
-                      top: 48 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 284 * fem,
-                          height: 28 * fem,
-                          child: Text(
-                            'Average experience. The pharmacy had most of the medicines, but not everything I was looking for.',
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 11 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.25 * ffem / fem,
-                              color: Color(0xff3d3b40),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // udeshitashanaudeshiiitashgmail (92:7)
-                      left: 53 * fem,
-                      top: 7 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 127 * fem,
-                          height: 43 * fem,
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25 * ffem / fem,
-                                color: Color(0xff000000),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'Anji Fonseka             \n',
-                                ),
-                                TextSpan(
-                                  text: 'hirunianjalika@gmail.com',
-                                  style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 10 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.25 * ffem / fem,
-                                    color: Color(0xffb6bbc4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // 6vb (92:6)
-                      left: 6 * fem,
-                      top: 4 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 34 * fem,
-                          height: 34 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/Reviewuser.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star1Rxs (95:15)
-                      left: 213 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star2Mbd (95:16)
-                      left: 230 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star3q11 (95:17)
-                      left: 247 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star4m9Z (95:18)
-                      left: 264 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // star5Gs1 (95:19)
-                      left: 281 * fem,
-                      top: 9 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 14 * fem,
-                          height: 13 * fem,
-                          child: Image(
-                            image: AssetImage('lib/images/star_empty.png'),
-                            width: 14 * fem,
-                            height: 13 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              )
+                  : Center(child: Text('No reviews yet')),
+
               GestureDetector(
                 onTap: () {
                   // Navigate to another page when tapped
@@ -768,135 +267,6 @@ class AboutPharmacy extends StatelessWidget {
                         color: Color(0xff000000),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              SingleChildScrollView(
-                child: Positioned(
-                  // autogroupeiyuup1 (CUK7mAeNRQ5wUeeRU6EiYu)
-                  left: 0 * fem,
-                  top: 710 * fem,
-                  child: Container(
-                    width: 390 * fem,
-                    height: 100 * fem,
-                    child: Stack(children: [
-                      Positioned(
-                        // rectangle10RGZ (37:633)
-                        left: 0 * fem,
-                        top: 38 * fem,
-                        child: Align(
-                          child: SizedBox(
-                            width: 390 * fem,
-                            height: 55 * fem,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffbbe2ec),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        // homeiconsilhouettefreeiconsdes (37:634)
-                        left: 40 * fem,
-                        top: 48 * fem,
-                        child: Align(
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigate to another page when tapped
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            },
-                            child: SizedBox(
-                              width: 31 * fem,
-                              height: 32 * fem,
-                              child: Image(
-                                image: AssetImage('lib/images/home.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        // freesearchpngsvgiconremovebgpr (37:635)
-                        left: 135 * fem,
-                        top: 48 * fem,
-                        child: Align(
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigate to another page when tapped
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            },
-                            child: SizedBox(
-                              width: 37 * fem,
-                              height: 32 * fem,
-                              child: Image(
-                                image: AssetImage('lib/images/search.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        // downloadremovebgpreview184V (37:636)
-                        left: 304 * fem,
-                        top: 42 * fem,
-                        child: Align(
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigate to another page when tapped
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountPage()),
-                              );
-                            },
-                            child: SizedBox(
-                              width: 42 * fem,
-                              height: 43 * fem,
-                              child: Image(
-                                image: AssetImage('lib/images/user.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        // settingiconremovebgpreview1TMf (37:637)
-                        left: 195 * fem,
-                        top: 38 * fem,
-                        child: Align(
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigate to another page when tapped
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SettingsPage()),
-                              );
-                            },
-                            child: SizedBox(
-                              width: 96 * fem,
-                              height: 51 * fem,
-                              child: Image(
-                                image: AssetImage('lib/images/settings.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
                   ),
                 ),
               ),
