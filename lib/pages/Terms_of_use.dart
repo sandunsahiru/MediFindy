@@ -7,8 +7,8 @@ class TermsOfUse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1; // Assuming you have defined fem somewhere
-    double ffem = 1; // Assuming you have defined ffem somewhere
+    double fem = 1; // Scale factor for font size, assuming defined elsewhere
+    double ffem = 1; // Scale factor for font size, assuming defined elsewhere
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -33,7 +33,7 @@ class TermsOfUse extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                          // Navigate to another page when tapped
+                          // Navigate to the 'AboutPage' when tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -41,7 +41,6 @@ class TermsOfUse extends StatelessWidget {
                           );
                         },
                     child: Container(
-                      // 21M (36:582)
                       margin: EdgeInsets.fromLTRB(
                           0 * fem, 0 * fem, 80 * fem, 0 * fem),
                       child: Text(
@@ -59,7 +58,6 @@ class TermsOfUse extends StatelessWidget {
                   ),
 
                   Text(
-                    // specialrequestsHKM (36:581)
                     'Terms of Use',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -72,11 +70,9 @@ class TermsOfUse extends StatelessWidget {
                   ),
                   SizedBox(
                       width: 60 *
-                          fem), // Adding a gap of 10 * fem between the icon and the text
+                          fem), // Adding a gap between the icon and the text
 
                   Positioned(
-                    // screenshot284removebgpreview1q (177:131)
-
                     left: 0 * fem,
                     top: 0 * fem,
                     child: Align(
@@ -99,7 +95,6 @@ class TermsOfUse extends StatelessWidget {
                     BouncingScrollPhysics(), // Enable scrolling for the text section
                 children: [
                   Container(
-                    // welcometomedifindythesetermsof (177:186)
                     margin: EdgeInsets.fromLTRB(
                         20 * fem, 0 * fem, 10 * fem, 18 * fem),
                     constraints: BoxConstraints(
@@ -303,13 +298,12 @@ class TermsOfUse extends StatelessWidget {
               ),
             ),
             Container(
-              // autogroupcsidAFy (GpWypZPNC8wdGxhcobCsiD)
               width: double.infinity,
               height: 130 * fem,
               child: Stack(
                 children: [
                   Positioned(
-                    // rectangle97S7 (38:663)
+                    // rectangle
                     left: 0 * fem,
                     top: 80 * fem,
                     child: Align(
@@ -325,14 +319,12 @@ class TermsOfUse extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // homeiconsilhouettefreeiconsdes (38:664)
                     left: 40 * fem,
                     top: 88 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
                         },
                         child: SizedBox(
                           width: 31 * fem,
@@ -346,14 +338,12 @@ class TermsOfUse extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // freesearchpngsvgiconremovebgpr (38:665)
                     left: 135 * fem,
                     top: 90 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
                         },
                         child: SizedBox(
                           width: 37 * fem,
@@ -367,7 +357,6 @@ class TermsOfUse extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // downloadremovebgpreview1SMu (38:666)
                     left: 304 * fem,
                     top: 85 * fem,
                     child: Align(
@@ -388,7 +377,6 @@ class TermsOfUse extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // settingiconremovebgpreview1mQB (38:667)
                     left: 195 * fem,
                     top: 80 * fem,
                     child: Align(
