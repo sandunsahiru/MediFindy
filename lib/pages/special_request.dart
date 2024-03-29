@@ -294,7 +294,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                 ),
               ),
               GestureDetector(
-                onTap: () async {
+                onTap: () async { // button
                   _controller
                       ._sendSpecialRequest()
                       .then((value) {})
@@ -312,7 +312,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
                     borderRadius: BorderRadius.circular(10 * fem),
                   ),
                   child: Center(
-                    child: Text('Request to All Pharmacies'),
+                    child: Text('Request to All Pharmacies'), //text on button
                   ),
                 ),
               ),
