@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_appnew/pages/about.dart';
-import 'package:pharmacy_appnew/pages/settings.dart';
+import 'package:pharmacy_appnew/pages/about.dart'; // Import the About Page
+import 'package:pharmacy_appnew/pages/settings.dart'; // Import the Settings Page
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1; // Assuming you have defined fem somewhere
-    double ffem = 1; // Assuming you have defined ffem somewhere
+    double fem = 1; // Font size multiplier (assuming defined elsewhere)
+    double ffem = 1; // Font size multiplier for larger text (assuming defined elsewhere)
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -20,6 +20,7 @@ class PrivacyPolicy extends StatelessWidget {
             color: Color(0xffefffff),
           ),
           child: Column(children: [
+            // App bar with back button and logo
             Container(
               margin: EdgeInsets.fromLTRB(0 * fem, 50 * fem, 0 * fem, 31 * fem),
               padding:
@@ -33,7 +34,7 @@ class PrivacyPolicy extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                          // Navigate to another page when tapped
+                          // Navigate to AboutPage when back button is tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -41,7 +42,6 @@ class PrivacyPolicy extends StatelessWidget {
                           );
                         },
                     child: Container(
-                      // 21M (36:582)
                       margin: EdgeInsets.fromLTRB(
                           0 * fem, 0 * fem, 80 * fem, 0 * fem),
                       child: Text(
@@ -59,7 +59,6 @@ class PrivacyPolicy extends StatelessWidget {
                   ),
 
                   Text(
-                    // specialrequestsHKM (36:581)
                     'Privacy Policy',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -72,10 +71,9 @@ class PrivacyPolicy extends StatelessWidget {
                   ),
                   SizedBox(
                       width: 60 *
-                          fem), // Adding a gap of 10 * fem between the icon and the text
+                          fem), // Gap between icon and text
 
                   Positioned(
-                    // screenshot284removebgpreview1q (177:131)
 
                     left: 0 * fem,
                     top: 0 * fem,
@@ -93,13 +91,13 @@ class PrivacyPolicy extends StatelessWidget {
                 ],
               ),
             ),
+            // Scrollable text section
             Expanded(
               child: ListView(
                 physics:
                     BouncingScrollPhysics(), // Enable scrolling for the text section
                 children: [
                   Container(
-                    // informationwecollectpersonalin (177:139)
                     margin: EdgeInsets.fromLTRB(
                         20 * fem, 0 * fem, 10 * fem, 0 * fem),
                     constraints: BoxConstraints(
@@ -115,6 +113,7 @@ class PrivacyPolicy extends StatelessWidget {
                           color: Color(0xff000000),
                         ),
                         children: [
+                          // Privacy policy content
                           TextSpan(
                             text: 'Information We Collect\n',
                             style: TextStyle(
@@ -305,14 +304,14 @@ class PrivacyPolicy extends StatelessWidget {
                 ],
               ),
             ),
+            // Bottom navigation icons
             Container(
-              // autogroupcsidAFy (GpWypZPNC8wdGxhcobCsiD)
               width: double.infinity,
               height: 130 * fem,
               child: Stack(
                 children: [
+                  // Background rectangle
                   Positioned(
-                    // rectangle97S7 (38:663)
                     left: 0 * fem,
                     top: 80 * fem,
                     child: Align(
@@ -327,15 +326,15 @@ class PrivacyPolicy extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Home, search, user, and settings icons with onTap actions
                   Positioned(
-                    // homeiconsilhouettefreeiconsdes (38:664)
                     left: 40 * fem,
                     top: 88 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                         // Perform your action when the Home icon is tapped
                         },
                         child: SizedBox(
                           width: 31 * fem,
@@ -349,14 +348,13 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // freesearchpngsvgiconremovebgpr (38:665)
                     left: 135 * fem,
                     top: 90 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                          // Perform your action when the Search icon is tapped
                         },
                         child: SizedBox(
                           width: 37 * fem,
@@ -370,14 +368,13 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // downloadremovebgpreview1SMu (38:666)
                     left: 304 * fem,
                     top: 85 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                          // Perform your action when the User icon is tapped
                         },
                         child: SizedBox(
                           width: 42 * fem,
@@ -391,13 +388,12 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    // settingiconremovebgpreview1mQB (38:667)
                     left: 195 * fem,
                     top: 80 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to another page when tapped
+                          // Navigate to Settings page when tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
