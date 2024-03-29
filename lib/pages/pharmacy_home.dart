@@ -13,7 +13,7 @@ class PharmacyHome extends StatelessWidget {
           width: double.infinity,
           height: 805,
           decoration: BoxDecoration(
-            color: Color(0xffefffff),
+            color: Color(0xffefffff), // background color
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,10 +40,10 @@ class PharmacyHome extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Container(
-                margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                margin: EdgeInsets.fromLTRB(30, 20, 30, 20), //text feild margin
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Enter medicine name',
+                    hintText: 'Enter medicine name', //placeholder
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -54,27 +54,27 @@ class PharmacyHome extends StatelessWidget {
                 child: ElevatedButton(
                   
                     onPressed: () {
-                      // Add button functionality goes here
-                      // You can add code here to add the medicine
+                      // Add button functionality 
+            
                     },
                     child: Text('Add')),
               ),
                   SizedBox(height: 350),
               Container(
-                // autogroup2ildjio (GpWwVHwRLuq1iVZmZx2iLD)
+                
                 width: double.infinity,
-                child: Row(
+                child: Row( // row to arrange children horizontally
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      // autogroup9pbt63Z (GpWwhY624NGMwBXEGw9PBT)
+                      
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                       width: 385,
                       height: 85,
                       child: Stack(
                         children: [
                           Positioned(
-                            // rectangle91gK (37:651)
+                            
                             left: 0,
                             top: 38,
                             child: Align(
@@ -90,7 +90,7 @@ class PharmacyHome extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            // homeiconsilhouettefreeiconsdes (37:652)
+                            
                             left: 40,
                             top: 48,
                             child: Align(
@@ -111,7 +111,7 @@ class PharmacyHome extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            // freesearchpngsvgiconremovebgpr (37:653)
+                            
                             left: 135,
                             top: 48,
                             child: Align(
@@ -132,7 +132,7 @@ class PharmacyHome extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            // downloadremovebgpreview2k1d (37:654)
+                            
                             left: 304,
                             top: 42,
                             child: Align(
@@ -153,7 +153,7 @@ class PharmacyHome extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            // settingiconremovebgpreview1esh (37:655)
+                            
                             left: 195,
                             top: 38,
                             child: Align(
