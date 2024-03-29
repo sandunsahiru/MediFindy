@@ -21,6 +21,10 @@ class SessionManager {
   String? get userId => _userId;
   String? get pharmacyId => _pharmacyId;
 
+  void removePharmacyId() {
+    _pharmacyId = null;
+  }
+
   void clear() {
     _userId = null;
     _pharmacyId = null;

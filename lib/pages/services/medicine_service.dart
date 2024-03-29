@@ -6,7 +6,7 @@ class Medicine {
 
   Medicine({required this.name, required this.pharmacyId});
 
-  // Convert a Medicine object into a Map. Since Firestore works with maps, this is useful for inserts.
+  // Convert a Medicine object into a Map.
   Map<String, dynamic> toMap() {
     return {
       'name': name,

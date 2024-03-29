@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_appnew/pages/about.dart';
-import 'package:pharmacy_appnew/pages/account.dart';
-import 'package:pharmacy_appnew/pages/password_security.dart';
-import 'package:pharmacy_appnew/pages/home.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/about.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/account.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/password_security.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/home.dart';
+import 'package:pharmacy_appnew/pages/services/session_manager.dart';
+import 'package:pharmacy_appnew/pages/sign_in_sign_up_page.dart';
+
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -33,7 +36,10 @@ class SettingsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => HomePage()), // Replace HomePage() with your actual home page widget
+                          (Route<dynamic> route) => false,
+                    ),
                     child: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
                   const SizedBox(width: 20),
@@ -62,7 +68,7 @@ class SettingsPage extends StatelessWidget {
             ),
             SettingsItem(
               title: 'Account',
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountPage())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PharmacyAccountPage())),
             ),
             SettingsItem(
               title: 'Password & Security',
@@ -74,8 +80,16 @@ class SettingsPage extends StatelessWidget {
             ),
             SettingsItem(
               title: 'Log Out',
-              onTap: () {},
+              onTap: () {
+                SessionManager().removePharmacyId(); // Clear pharmacyId from the session manager
+                // Navigate to the desired page after logout
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => SignInSignUpPage()),
+                      (Route<dynamic> route) => false,
+                );
+              },
             ),
+
           ]),
         ),
       ),
@@ -84,30 +98,22 @@ class SettingsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              },
+              icon: Icon(Icons.home),
+              onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement action or navigate to search page
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => AccountPage()));
+                    MaterialPageRoute(builder: (_) => PharmacyAccountPage()));
               },
             ),
+
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                    MaterialPageRoute(builder: (_) => SettingsPage()));
               },
             ),
           ],

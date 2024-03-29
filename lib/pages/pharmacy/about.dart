@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_appnew/pages/Terms_of_use.dart';
-import 'package:pharmacy_appnew/pages/privacy_policy.dart';
-import 'package:pharmacy_appnew/pages/home.dart';
-import 'package:pharmacy_appnew/pages/account.dart';
-import 'package:pharmacy_appnew/pages/settings.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/Terms_of_use.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/privacy_policy.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/home.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/account.dart';
+import 'package:pharmacy_appnew/pages/pharmacy/settings.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -173,30 +173,25 @@ class AboutPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.home),
+              icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                    MaterialPageRoute(builder: (_) => HomePage()));
               },
             ),
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement action or navigate to search page
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => AccountPage()));
+                    MaterialPageRoute(builder: (_) => PharmacyAccountPage()));
               },
             ),
+
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                    MaterialPageRoute(builder: (_) => SettingsPage()));
               },
             ),
           ],

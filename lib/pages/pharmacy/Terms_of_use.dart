@@ -4,9 +4,11 @@ import 'package:pharmacy_appnew/pages/account.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 
+import 'account.dart';
 
-class PrivacyPolicy extends StatelessWidget {
-  const PrivacyPolicy({Key? key}) : super(key: key);
+
+class TermsOfUse extends StatelessWidget {
+  const TermsOfUse({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class PrivacyPolicy extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-            'Privacy Policy',
+          'Terms of Use',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
@@ -30,9 +32,9 @@ class PrivacyPolicy extends StatelessWidget {
         child: Column(
           children: [
             Container(
-
+              // welcometomedifindythesetermsof (177:186)
               margin: EdgeInsets.fromLTRB(
-                  20 * fem, 0 * fem, 10 * fem, 0 * fem),
+                  20 * fem, 0 * fem, 10 * fem, 18 * fem),
               constraints: BoxConstraints(
                 maxWidth: 360 * fem,
               ),
@@ -47,7 +49,11 @@ class PrivacyPolicy extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Information We Collect\n',
+                      text:
+                      'Welcome to Medi Findy! These Terms of Use ("Terms") govern your access to and use of the Medi Findy mobile application ("App") and the services provided through the App. By using the App, you agree to these Terms.\n\n',
+                    ),
+                    TextSpan(
+                      text: 'Use of the App\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -58,7 +64,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Personal Information When you create an account, we may collect personal information such as your name, email address, and phone number.\nLocation Information We may collect your device\'s location information to provide location-based services.\nUsage Data We collect information about how you use the App, such as search queries and interactions with pharmacies.\n',
+                      'Eligibility You must be at least 18 years old to use the App.\nUser Account You may need an account for certain App features. Keep your account details confidential.\nUse Restrictions Do not use the App unlawfully, attempt unauthorized access, or disrupt its operation.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -68,7 +74,17 @@ class PrivacyPolicy extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: '\nHow We Use Your Information\n',
+                      text: '\n',
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                        fontSize: 10 * ffem,
+                        fontWeight: FontWeight.w600,
+                        height: 1.25 * ffem / fem,
+                        color: Color(0xff4942e4),
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Medical Information\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -79,7 +95,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Provide Services We use your information to provide and improve the services offered through the App, such as finding pharmacies and medicines.\nCommunication We may use your contact information to send you notifications, updates, and promotional messages.\n',
+                      'Disclaimer Information on the App is for information purposes only.\nConsultation Always consult a qualified health provider for medical advice.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -92,7 +108,7 @@ class PrivacyPolicy extends StatelessWidget {
                       text: '\n',
                     ),
                     TextSpan(
-                      text: 'Data Sharing\n',
+                      text: 'Intellectual Property\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -103,7 +119,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Pharmacies We may share your information with pharmacies to fulfill your orders or special requests.\nThird Parties We do not sell or share your personal information with third parties for marketing purposes without your consent.\n',
+                      'Ownership The App and its content are owned by Medi Findy. Do not modify, reproduce, or distribute without permission.\nTrademarks All trademarks on the App belong to Medi Findy or third parties. Do not use without permission.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -116,7 +132,7 @@ class PrivacyPolicy extends StatelessWidget {
                       text: '\n',
                     ),
                     TextSpan(
-                      text: 'Data Security\n',
+                      text: 'Privacy\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -127,7 +143,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Security Measures We implement security measures to protect your information from unauthorized access or disclosure.\nData Retention We retain your information for as long as necessary to provide the services and as required by law.\n',
+                      'Data Collection We collect and use personal information as described in our Privacy Policy.\nCookies By using the App, you agree to the use of cookies in accordance with our Cookie Policy.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -140,7 +156,7 @@ class PrivacyPolicy extends StatelessWidget {
                       text: '\n',
                     ),
                     TextSpan(
-                      text: 'Cookies\n',
+                      text: 'Termination\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -151,7 +167,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Cookies We use cookies to enhance your experience on the App. You can choose to disable cookies in your browser settings.\nThird-Party Services We may use third-party services that use cookies to provide analytics and improve our services.\n',
+                      'Termination We may suspend or terminate your App access at any time, without notice, for any reason.\nEffect of Termination Your App usage rights cease immediately upon termination.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -164,7 +180,7 @@ class PrivacyPolicy extends StatelessWidget {
                       text: '\n',
                     ),
                     TextSpan(
-                      text: 'Your Choices\n',
+                      text: 'Governing Law\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -175,7 +191,7 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'Account Settings You can update your account information and preferences in the App settings.\n',
+                      'Jurisdiction These Terms are governed by [Jurisdiction]\'s laws, without considering conflicts of law principles.\nDisputes Any disputes arising from these Terms will be resolved in [Jurisdiction]\'s courts.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -188,7 +204,7 @@ class PrivacyPolicy extends StatelessWidget {
                       text: '\n',
                     ),
                     TextSpan(
-                      text: 'Contact Us\n',
+                      text: 'Changes to Terms\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
@@ -199,35 +215,18 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'If you have any questions about these Terms or Privacy Policy, please contact us at sandunsbandara13@gmail.com.\n',
+                      'Changes We reserve the right to modify these Terms at any time, effective immediately upon posting.\nNotification Updated Terms will be posted on the App to notify you of any changes.\n',
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 10 * ffem,
                         fontWeight: FontWeight.w500,
                         height: 1.25 * ffem / fem,
                         color: Color(0xff000000),
-                      ),
-                    ),
-                    TextSpan(
-                      text: '\nEffective Date\n',
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 10 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.25 * ffem / fem,
-                        color: Color(0xff4942e4),
                       ),
                     ),
                     TextSpan(
                       text:
-                      'These Terms and Privacy Policy are effective as of 22.03.2024.\n\nBy using the Medi Findy app, you agree to these Terms and consent to the collection and use of your information as described in the Privacy Policy.',
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 10 * ffem,
-                        fontWeight: FontWeight.w500,
-                        height: 1.25 * ffem / fem,
-                        color: Color(0xff000000),
-                      ),
+                      '\nBy continuing to use the App after the changes are made, you agree to be bound by the revised Terms.',
                     ),
                   ],
                 ),
@@ -241,30 +240,22 @@ class PrivacyPolicy extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              },
+              icon: Icon(Icons.home),
+              onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement action or navigate to search page
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => AccountPage()));
+                    MaterialPageRoute(builder: (_) => PharmacyAccountPage()));
               },
             ),
+
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                    MaterialPageRoute(builder: (_) => SettingsPage()));
               },
             ),
           ],

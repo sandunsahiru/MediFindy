@@ -4,6 +4,8 @@ import 'package:pharmacy_appnew/pages/account.dart';
 import 'package:pharmacy_appnew/pages/settings.dart';
 import 'package:pharmacy_appnew/pages/home.dart';
 
+import 'account.dart';
+
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);
@@ -241,30 +243,22 @@ class PrivacyPolicy extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              },
+              icon: Icon(Icons.home),
+              onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement action or navigate to search page
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => AccountPage()));
+                    MaterialPageRoute(builder: (_) => PharmacyAccountPage()));
               },
             ),
+
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                    MaterialPageRoute(builder: (_) => SettingsPage()));
               },
             ),
           ],
