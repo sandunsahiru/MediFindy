@@ -93,7 +93,7 @@ class SettingsPage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                // Implement action or navigate to search page
+                
               },
             ),
             IconButton(
