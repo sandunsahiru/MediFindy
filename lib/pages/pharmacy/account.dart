@@ -130,10 +130,11 @@ class _PharmacyAccountPageState extends State<PharmacyAccountPage> {
                 onPressed: () => _updatePharmacyDetails(context),
                 child: Text('Save'),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Color(0xffffdbaa),
-                  minimumSize: Size(screenWidth * 0.5, 50),
+                  foregroundColor: Colors.white, backgroundColor: Theme.of(context).colorScheme.secondary, // Use white text for better contrast
+                  minimumSize: Size(screenWidth * 0.5, 50), // Make sure the button is large enough
                 ),
               ),
+
             ],
           ),
         ),

@@ -8,6 +8,8 @@ import 'package:pharmacy_appnew/pages/welcome_page.dart';
 import 'package:pharmacy_appnew/utils/custom_snack.dart';
 import 'package:pharmacy_appnew/utils/loading_animation.dart';
 
+import 'account.dart';
+
 class SpecialRequest extends StatefulWidget {
   const SpecialRequest({Key? key}) : super(key: key);
 
@@ -19,8 +21,8 @@ class _SpecialRequestState extends State<SpecialRequest> {
   final SpecialRequestController _controller = SpecialRequestController();
   @override
   Widget build(BuildContext context) {
-    double fem = 1; // Assuming you have defined fem somewhere
-    double ffem = 1; // Assuming you have defined ffem somewhere
+    double fem = 1;
+    double ffem = 1;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -28,7 +30,7 @@ class _SpecialRequestState extends State<SpecialRequest> {
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Color(0xffefffff),
+            color: Colors.white,
           ),
           child: Column(
             // Your column setup
@@ -316,121 +318,39 @@ class _SpecialRequestState extends State<SpecialRequest> {
                   ),
                 ),
               ),
-              Container(
-                
-                width: double.infinity,
-                height: 130 * fem,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      
-                      left: 0 * fem,
-                      top: 80 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 390 * fem,
-                          height: 55 * fem,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffbbe2ec),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // home icon
-                      left: 40 * fem,
-                      top: 88 * fem,
-                      child: Align(
-                        child: GestureDetector(
-                          onTap: () {
-                            print(" icon tapped");
-                            
-                          },
-                          child: SizedBox(
-                            width: 31 * fem,
-                            height: 32 * fem,
-                            child: Image(
-                              image: AssetImage('lib/images/home.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      //search icon
-                      left: 135 * fem,
-                      top: 90 * fem,
-                      child: Align(
-                        child: GestureDetector(
-                          onTap: () {
-                            print(" icon tapped");
-                            
-                          },
-                          child: SizedBox(
-                            width: 37 * fem,
-                            height: 32 * fem,
-                            child: Image(
-                              image: AssetImage('lib/images/search.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // usr icon
-                      left: 304 * fem,
-                      top: 85 * fem,
-                      child: Align(
-                        child: GestureDetector(
-                          onTap: () {
-                            print(" icon tapped");
-                            
-                          },
-                          child: SizedBox(
-                            width: 42 * fem,
-                            height: 43 * fem,
-                            child: Image(
-                              image: AssetImage('lib/images/user.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      // setting icon
-                      left: 195 * fem,
-                      top: 80 * fem,
-                      child: Align(
-                        child: GestureDetector(
-                          onTap: () {
-                      
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingsPage()),
-                            );
-                          },
-                          child: SizedBox(
-                            width: 96 * fem,
-                            height: 51 * fem,
-                            child: Image(
-                              image: AssetImage('lib/images/settings.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Implement action or navigate to search page
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => AccountPage()));
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => SettingsPage()));
+              },
+            ),
+          ],
         ),
       ),
     );

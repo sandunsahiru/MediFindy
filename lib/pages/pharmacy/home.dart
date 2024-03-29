@@ -130,12 +130,6 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (_) => PharmacyAccountPage()));
               },
             ),
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-
-              },
-            ),
 
             IconButton(
               icon: Icon(Icons.settings),

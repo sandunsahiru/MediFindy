@@ -41,7 +41,6 @@ class MedicineService {
     return totalCount;
   }
 
-  // Adds a new medicine to the pharmacy by updating the medicine array of the document found by pharmacyId
   Future<void> addMedicineToPharmacy(String pharmacyId, String medicineName) async {
     final querySnapshot = await _db
         .collection('medicines')
@@ -49,16 +48,18 @@ class MedicineService {
         .get();
 
     if (querySnapshot.docs.isNotEmpty) {
+      // Document exists for this pharmacyId, so update the existing 'medicine' array
       var doc = querySnapshot.docs.first;
       await _db.collection('medicines').doc(doc.id).update({
-        'medicine': FieldValue.arrayUnion([{'name': medicineName}])
+        'medicine': FieldValue.arrayUnion([medicineName]) // Add the medicine name directly
       });
     } else {
-      // If no document exists for this pharmacyId, create a new document
+      // No document exists for this pharmacyId, create a new one with 'medicine' array
       await _db.collection('medicines').add({
         'pharmacyID': pharmacyId,
-        'medicine': [{'name': medicineName}],
+        'medicine': [medicineName], // Initialize with the medicine name
       });
     }
   }
+
 }

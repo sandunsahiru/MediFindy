@@ -78,9 +78,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
             _buildActionButton(
-                context, 'Log In', height * 0.04, width), 
-            _buildActionButton(
-                context, 'Sign Up', height * 0.04, width), 
+                context, 'Next', height * 0.04, width),
           ],
         ),
       ),
