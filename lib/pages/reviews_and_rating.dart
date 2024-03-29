@@ -101,7 +101,7 @@ class _ReviewAndRatingState extends State<ReviewAndRating> {
                 ),
               ),
             Image.asset(
-              'lib/images/pharmacy.jpeg', // Replace with your asset image path
+              'lib/images/pharmacy.jpeg', // Image
               width: 130.0,
               height: 130.0,
             ),
