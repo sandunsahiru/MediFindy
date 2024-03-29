@@ -25,7 +25,7 @@ class PharmacyHome extends StatelessWidget {
                     CircleAvatar(
                       // User Icon
                       backgroundImage: AssetImage(
-                          'lib/images/user.png'), // Replace with your actual path
+                          'lib/images/user.png'), // Image
                       radius: 25,
                     ),
                     SizedBox(width: 10),
