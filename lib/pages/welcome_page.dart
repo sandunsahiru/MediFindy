@@ -25,7 +25,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get device size
+    
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -33,9 +33,9 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       body: Container(
         padding:
-            const EdgeInsets.only(bottom: 40), // Updated for dynamic sizing
-        width: width, // Use the full width of the device
-        height: height, // Use the full height of the device
+            const EdgeInsets.only(bottom: 40), 
+        width: width, 
+        height: height, 
         decoration: const BoxDecoration(
           color: Color(0xffefffff),
           boxShadow: [
@@ -49,38 +49,38 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: height * 0.05), // Dynamic sizing
+            SizedBox(height: height * 0.05), 
             Container(
               margin: const EdgeInsets.only(
-                  right: 1), // Simplified for dynamic sizing
-              width: width * 0.8, // Dynamic width based on screen size
-              height: height * 0.3, // Dynamic height based on screen size
+                  right: 1), 
+              width: width * 0.8, 
+              height: height * 0.3, 
               child: const Image(
-                image: AssetImage('lib/images/logo.png'),
+                image: AssetImage('lib/images/logo.png'),// images
                 fit: BoxFit.cover,
               ),
             ),
             Container(
               margin: EdgeInsets.only(
-                  top: height * 0.01, bottom: height * 0.07), // Dynamic sizing
+                  top: height * 0.01, bottom: height * 0.07), 
               constraints: BoxConstraints(
-                maxWidth: width * 0.6, // Dynamic width constraint
+                maxWidth: width * 0.6, 
               ),
               child: const Text(
                 'Welcome to Medi Findy!\n\nYour one-stop solution for finding medicines and pharmacies with ease. \nSearch, discover, and connect seamlessly. Get the medicines you need, when you need them.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Quicksand',
-                  fontSize: 14, // Adjust font size as needed
+                  fontSize: 14, 
                   fontWeight: FontWeight.bold,
                   color: Color(0xff095062),
                 ),
               ),
             ),
             _buildActionButton(
-                context, 'Log In', height * 0.04, width), // Dynamic sizing
+                context, 'Log In', height * 0.04, width), 
             _buildActionButton(
-                context, 'Sign Up', height * 0.04, width), // Dynamic sizing
+                context, 'Sign Up', height * 0.04, width), 
           ],
         ),
       ),
@@ -99,9 +99,9 @@ class _WelcomePageState extends State<WelcomePage> {
       child: Container(
         margin: EdgeInsets.symmetric(
             vertical: height * 0.02,
-            horizontal: width * 0.35), // Dynamic sizing
+            horizontal: width * 0.35), 
         width: double.infinity,
-        height: height, // Dynamic height
+        height: height, 
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xff000000)),
           color: const Color(0xff7bd3ea),
