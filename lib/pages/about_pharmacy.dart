@@ -99,8 +99,8 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1; // Adjust as per your scaling factor
-    double ffem = 1; // Adjust as per your font scaling factor
+    double fem = 1; //  scaling factor
+    double ffem = 1; //  font scaling factor
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -125,7 +125,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.white,
-                        size: 24 * ffem, // Adjust the size factor according to your design
+                        size: 24 * ffem, 
                       ),
                     ),
                     Text(
@@ -149,7 +149,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
                 ),
               ),
               Container(
-                // klmpharmacyvbZ (30:475)
+                
                 margin:
                 EdgeInsets.fromLTRB(5 * fem, 0 * fem, 16 * fem, 0 * fem),
                 child: Text(
@@ -168,7 +168,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
               ),
 
               Container(
-                // freevectorpharmacist18hd (30:476)
+                
                 margin:
                 EdgeInsets.fromLTRB(0 * fem, 10 * fem, 7 * fem, 10 * fem),
                 width: 152 * fem,
@@ -178,7 +178,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
                   fit: BoxFit.cover,
                 ),
               ),
-              // Dynamic section for displaying pharmacy details
+              // displaying pharmacy details section
               if (pharmacyDetails != null)
                 Container(
                     margin: EdgeInsets.all(10 * fem),
@@ -210,7 +210,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
 
                 ),
 
-              // Dynamic section for displaying reviews
+              // displaying reviews section
               reviews.isNotEmpty
                   ? ListView.builder(
                 shrinkWrap: true,
@@ -240,7 +240,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
 
               GestureDetector(
                 onTap: () {
-                  // Navigate to the ReviewAndRating page when tapped
+                  
                   if (widget.pharmacyId != null) {
                     Navigator.push(
                       context,
@@ -256,7 +256,7 @@ class _AboutPharmacyState extends State<AboutPharmacy> {
                 },
 
                 child: Container(
-                  // autogroup24nqHaP (GpWtf89y2TEXGmRCzW24Nq)
+                  
                   margin: EdgeInsets.fromLTRB(
                       35 * fem, 10 * fem, 34 * fem, 0 * fem),
                   width: 300,
