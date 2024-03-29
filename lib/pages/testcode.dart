@@ -30,7 +30,7 @@ class PrivacyPolicy extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              // welcometomedifindythesetermsof (177:186)
+              
               margin: EdgeInsets.fromLTRB(
                   20 * fem, 0 * fem, 10 * fem, 18 * fem),
               constraints: BoxConstraints(
@@ -247,7 +247,7 @@ class PrivacyPolicy extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                // Implement action or navigate to search page
+                
               },
             ),
             IconButton(
