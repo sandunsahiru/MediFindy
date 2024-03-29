@@ -75,16 +75,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                               color: Color(0xff00bd56),
                             ),
                           ),
-                          // TextSpan(
-                          //   text: ' Login',
-                          //   style: TextStyle(
-                          //     fontFamily: 'Quicksand',
-                          //     fontSize: 15,
-                          //     fontWeight: FontWeight.w700,
-                          //     height: 1.25,
-                          //     color: Color(0xff1c7947),
-                          //   ),
-                          // ),
+                          
                         ],
                       ),
                     ),
