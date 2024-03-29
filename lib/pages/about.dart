@@ -8,8 +8,8 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 1; // Assuming you have defined fem somewhere
-    double ffem = 1; // Assuming you have defined ffem somewhere
+    double fem = 1; // Font size multiplier (assumed to be defined elsewhere)
+    double ffem = 1; // Font size multiplier for larger text (assumed to be defined elsewhere)
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -21,6 +21,7 @@ class AboutPage extends StatelessWidget {
             color: Color(0xffefffff),
           ),
           child: Column(children: [
+            // App bar with 'About' title and back button
             Container(
               margin: EdgeInsets.fromLTRB(0 * fem, 60 * fem, 0 * fem, 31 * fem),
               padding:
@@ -34,7 +35,7 @@ class AboutPage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                          // Navigate to another page when tapped
+                          // Navigate to SettingsPage when back button is tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -42,7 +43,7 @@ class AboutPage extends StatelessWidget {
                           );
                         },
                     child: Container(
-                      // 21M (36:582)
+                      
                       margin: EdgeInsets.fromLTRB(
                           0 * fem, 0 * fem, 120 * fem, 0 * fem),
                       child: Text(
@@ -59,7 +60,7 @@ class AboutPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    // specialrequestsHKM (36:581)
+                    
                     'About',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -74,7 +75,7 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             Container(
-              // autogroupgnq5eHd (GpWyzUGWxk9rt6BwfLgNQ5)
+              // Logo container
               padding:
                   EdgeInsets.fromLTRB(40 * fem, 0 * fem, 32 * fem, 0 * fem),
               width: double.infinity,
@@ -82,7 +83,7 @@ class AboutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    // screenshot284withoutnameremove (36:587)
+                    
                     margin: EdgeInsets.fromLTRB(
                         0 * fem, 30 * fem, 6 * fem, 0 * fem),
                     width: 160 * fem,
@@ -99,7 +100,7 @@ class AboutPage extends StatelessWidget {
               height: 70 * fem,
             ),
             Container(
-              // autogroup9vn31Ls (KjocVArqi7VEfuB5U19vN3)
+              // Privacy Policy and Terms of Use containers
               padding:
                   EdgeInsets.fromLTRB(25 * fem, 22 * fem, 30 * fem, 17 * fem),
               width: 350,
@@ -111,7 +112,7 @@ class AboutPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigate to another page when tapped
+                        // Navigate to PrivacyPolicyPage when Privacy Policy is tapped
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -119,7 +120,7 @@ class AboutPage extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        // autogroupgagpX4K (KjockFG45Aqo4dGdZVGAGP)
+                        
                         padding: EdgeInsets.fromLTRB(
                             15 * fem, 6 * fem, 22 * fem, 5 * fem),
                         width: double.infinity,
@@ -131,7 +132,7 @@ class AboutPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              // accountEzK (38:712)
+                              
                               margin: EdgeInsets.fromLTRB(
                                   0 * fem, 0 * fem, 130 * fem, 1 * fem),
                               child: Text(
@@ -147,7 +148,7 @@ class AboutPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              // xfR (181:187)
+                          
                               '>',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -167,14 +168,14 @@ class AboutPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigate to another page when tapped
+                        // Navigate to TermsOfUsePage when Terms of Use is tapped
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => TermsOfUse()),
                         );
                       },
                       child: Container(
-                        // autogroupjv3mJDV (KjocsQinUdkW68ZgxHJV3m)
+                        
                         padding: EdgeInsets.fromLTRB(
                             16 * fem, 6 * fem, 22 * fem, 5 * fem),
                         width: double.infinity,
@@ -186,7 +187,7 @@ class AboutPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              // passwordsecurity1dh (38:718)
+                              
                               margin: EdgeInsets.fromLTRB(
                                   0 * fem, 0 * fem, 130 * fem, 3 * fem),
                               child: Text(
@@ -202,7 +203,7 @@ class AboutPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              // 8iK (181:191)
+                              
                               '>',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -222,14 +223,15 @@ class AboutPage extends StatelessWidget {
             SizedBox(
               height: 150 * fem,
             ),
+            // Bottom navigation icons
             Container(
-              // autogroupcsidAFy (GpWypZPNC8wdGxhcobCsiD)
+              
               width: double.infinity,
               height: 130 * fem,
               child: Stack(
                 children: [
+                  // Background rectangle
                   Positioned(
-                    // rectangle97S7 (38:663)
                     left: 0 * fem,
                     top: 80 * fem,
                     child: Align(
@@ -244,15 +246,15 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Home icon
                   Positioned(
-                    // homeiconsilhouettefreeiconsdes (38:664)
                     left: 40 * fem,
                     top: 88 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                          // Perform your action when the Home icon is tapped
                         },
                         child: SizedBox(
                           width: 31 * fem,
@@ -265,15 +267,15 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Search icon
                   Positioned(
-                    // freesearchpngsvgiconremovebgpr (38:665)
                     left: 135 * fem,
                     top: 90 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                          // Perform your action when the Search icon is tapped
                         },
                         child: SizedBox(
                           width: 37 * fem,
@@ -286,15 +288,15 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // User icon
                   Positioned(
-                    // downloadremovebgpreview1SMu (38:666)
                     left: 304 * fem,
                     top: 85 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
                           print(" icon tapped");
-                          // Perform your action when the user icon is tapped
+                          // Perform your action when the User icon is tapped
                         },
                         child: SizedBox(
                           width: 42 * fem,
@@ -307,14 +309,14 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Settings icon
                   Positioned(
-                    // settingiconremovebgpreview1mQB (38:667)
                     left: 195 * fem,
                     top: 80 * fem,
                     child: Align(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to another page when tapped
+                          // Navigate to SettingsPage when Settings icon is tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
